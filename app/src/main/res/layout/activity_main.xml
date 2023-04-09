@@ -4,30 +4,192 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="122dp"
+        android:layout_height="103dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576" />
+        app:layout_constraintVertical_bias="0.125"
+        app:srcCompat="@drawable/icons8_tutoring_64" />
 
-    <EditText
-        android:id="@+id/txtLoginEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="202dp"
+        android:layout_height="41dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/vacancy_portal"
+        android:textAlignment="center"
+        android:textColor="@color/Blue"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.647" />
+        app:layout_constraintVertical_bias="0.279" />
+
+    <EditText
+        android:id="@+id/edtUNumberLogin"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:background="@drawable/custom_input"
+        android:ems="10"
+        android:fontFamily="@font/roboto"
+        android:hint="User Number"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColorHint="#5A5A5A"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.477" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="223dp"
+        android:layout_height="29dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/roboto"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.686" />
+
+    <TextView
+        android:id="@+id/tvSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/Blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.641"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.817" />
+
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="175dp"
+        android:layout_height="22dp"
+        android:fontFamily="@font/roboto"
+        android:text="Forgot Your Password?"
+        android:textAlignment="center"
+        android:textColor="@color/Blue"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.757" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="Need an account? "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.398"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.817" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="225dp"
+        android:layout_height="63dp"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        app:passwordToggleEnabled="true"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/edtUPasswordLogin"
+            android:layout_width="225dp"
+            android:layout_height="40dp"
+            android:autofillHints=""
+            android:background="@drawable/custom_input"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="Password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColorHint="#5A5A5A"
+            android:textSize="16sp"
+            app:passwordToggleEnabled="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/imgHelp"
+        android:layout_width="58dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/icons8_help_48__1_"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.941" />
+
+    <RadioGroup
+        android:layout_width="292dp"
+        android:layout_height="34dp"
+        android:checkedButton="@id/rbStudent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38">
+
+        <RadioButton
+            android:id="@+id/rbStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="30dp"
+            android:checked="false"
+            android:fontFamily="@font/roboto"
+            android:text="Student"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/rbLecturer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="55dp"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="@font/roboto"
+            android:text="Lecturer"
+            android:textSize="16sp" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

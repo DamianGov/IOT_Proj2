@@ -25,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btnLogin)
     Button btnLogin;
 
-    @BindView(R.id.txtLoginEmail)
-    EditText txtLogin;
+    @BindView(R.id.edtUNumberLogin)
+    EditText edtUserNumber;
+
+    @BindView(R.id.edtUPasswordLogin)
+    EditText edtPassword;
 
     private FirebaseFirestore FStore;
 
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                Words[0] = value.getString("status").toString();
+                Words[0] = value.getString("student_num").toString();
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener() {
