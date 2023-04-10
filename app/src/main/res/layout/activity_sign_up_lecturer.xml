@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpStudent">
+    tools:context=".SignUpLecturer">
 
     <FrameLayout
         android:id="@+id/linearLayout"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <Button
-            android:id="@+id/btnSignUpStudBack"
+            android:id="@+id/btnSignUpLectBack"
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_gravity="start|center_vertical"
@@ -41,10 +41,10 @@
             app:layout_constraintVertical_bias="0.44" />
 
         <TextView
-            android:id="@+id/textViewContactHeadingStudSignUp"
+            android:id="@+id/textViewContactHeadingLectSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnSignUpStudBack"
+            android:layout_below="@id/btnSignUpLectBack"
             android:layout_gravity="start|center_vertical"
             android:layout_weight="1"
             android:clickable="false"
@@ -57,8 +57,9 @@
 
     </FrameLayout>
 
+
     <EditText
-        android:id="@+id/edtSignUpStudName"
+        android:id="@+id/edtSignUpLectName"
         android:layout_width="310dp"
         android:layout_height="41dp"
         android:background="@drawable/custom_input"
@@ -75,10 +76,10 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.12" />
 
     <EditText
-        android:id="@+id/edtSignUpStudPass"
+        android:id="@+id/edtSignUpLecPass"
         android:layout_width="310dp"
         android:layout_height="41dp"
         android:autofillHints=""
@@ -96,10 +97,10 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.682" />
+        app:layout_constraintVertical_bias="0.734" />
 
     <EditText
-        android:id="@+id/edtSignUpStudEmail"
+        android:id="@+id/edtSignUpLecEmail"
         android:layout_width="310dp"
         android:layout_height="41dp"
         android:background="@drawable/custom_input"
@@ -116,30 +117,11 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.58" />
+        app:layout_constraintVertical_bias="0.633" />
 
-    <EditText
-        android:id="@+id/edtSignUpStudID"
-        android:layout_width="310dp"
-        android:layout_height="41dp"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:fontFamily="@font/roboto"
-        android:hint="ID Number"
-        android:inputType="number"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColorHint="#5A5A5A"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.482" />
 
     <Spinner
-        android:id="@+id/spnSignUpStudFac"
+        android:id="@+id/spnSignUpLecFac"
         android:layout_width="310dp"
         android:layout_height="41dp"
         android:background="@drawable/custom_spinner"
@@ -154,10 +136,46 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.292" />
+        app:layout_constraintVertical_bias="0.313" />
+
+    <Spinner
+        android:id="@+id/spnSignUpLecDept"
+        android:layout_width="310dp"
+        android:layout_height="41dp"
+        android:background="@drawable/custom_spinner"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:fontFamily="@font/roboto"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42" />
+
+    <Spinner
+        android:id="@+id/spnSignUpLectMod"
+        android:layout_width="310dp"
+        android:layout_height="41dp"
+        android:background="@drawable/custom_spinner"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:fontFamily="@font/roboto"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.528" />
 
     <EditText
-        android:id="@+id/edtSignUpStudCPass"
+        android:id="@+id/edtSignUpLecCPass"
         android:layout_width="310dp"
         android:layout_height="41dp"
         android:autofillHints=""
@@ -175,59 +193,16 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.775" />
+        app:layout_constraintVertical_bias="0.837" />
 
     <EditText
-        android:id="@+id/edtSignUpStudResume"
-        android:layout_width="310dp"
-        android:layout_height="41dp"
-        android:background="@drawable/custom_input"
-        android:focusable="false"
-        android:longClickable="false"
-        android:clickable="true"
-        android:ems="10"
-        android:fontFamily="@font/roboto"
-        android:hint="Select Resume"
-        android:textColorHint="#5A5A5A"
-        android:inputType="textPersonName"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.869" />
-
-    <EditText
-        android:id="@+id/edtSignUpStudCourse"
+        android:id="@+id/edtSignUpLecNumber"
         android:layout_width="310dp"
         android:layout_height="41dp"
         android:background="@drawable/custom_input"
         android:ems="10"
         android:fontFamily="@font/roboto"
-        android:hint="Course"
-        android:inputType="textPersonName"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColorHint="#5A5A5A"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.387" />
-
-    <EditText
-        android:id="@+id/edtSignUpStudNumber"
-        android:layout_width="310dp"
-        android:layout_height="41dp"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:fontFamily="@font/roboto"
-        android:hint="Student Number"
+        android:hint="Staff Number"
         android:inputType="number"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
@@ -238,10 +213,10 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.194" />
+        app:layout_constraintVertical_bias="0.214" />
 
     <Button
-        android:id="@+id/btnSignUpStudSubmit"
+        android:id="@+id/btnSignUpLecSubmit"
         android:layout_width="223dp"
         android:layout_height="29dp"
         android:background="@drawable/custom_button"
@@ -253,7 +228,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.948" />
-
-
+        app:layout_constraintVertical_bias="0.933" />
 </androidx.constraintlayout.widget.ConstraintLayout>

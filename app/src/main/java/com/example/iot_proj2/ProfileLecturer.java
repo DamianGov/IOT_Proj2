@@ -58,4 +58,9 @@ public class ProfileLecturer extends AppCompatActivity {
             LecModule.setText(value.getString("module"));
         });
     }
+    @Override
+    public void onBackPressed()
+    {
+        return;
+    }
 }

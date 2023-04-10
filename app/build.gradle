@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.iot_proj2"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -35,6 +35,11 @@ android {
         implementation.exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
     }
 
+    packagingOptions {
+        exclude 'META-INF/NOTICE.md'
+        exclude 'META-INF/LICENSE.md'
+    }
+
 }
 
 
@@ -56,5 +61,9 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation 'org.mindrot:jbcrypt:0.4'
+    implementation 'com.sun.mail:android-mail:1.6.7'
+    implementation 'com.sun.mail:android-activation:1.6.7'
+    implementation 'com.dropbox.core:dropbox-core-sdk:3.1.2'
+
 
 }
