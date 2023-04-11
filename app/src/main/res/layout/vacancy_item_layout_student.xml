@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+    <!-- Example layout for vacancy item in RecyclerView -->
+
+    <TextView
+        android:id="@+id/vacancyLecturerTextViewStud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="Vacancy Lecturer"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/vacancyTitleTextViewStud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="Vacancy Title"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLecturerImg" />
+
+    <TextView
+        android:id="@+id/vacancyPositionTextViewStud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="Vacancy Position"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vacancyTitleTextViewStud" />
+
+    <TextView
+        android:id="@+id/vacancyDescriptionTextViewStud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="Vacancy Description"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vacancyPositionTextViewStud" />
+
+    <ImageView
+        android:id="@+id/applyButton"
+        android:layout_width="39dp"
+        android:layout_height="41dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.984"
+        app:layout_constraintStart_toEndOf="@+id/vacancyTitleTextViewStud"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icons8_add_list_50" />
+
+    <View
+        android:id="@+id/viewStud"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vacancyDescriptionTextViewStud"
+        app:layout_constraintVertical_bias="0.823" />
+
+    <ImageView
+        android:id="@+id/imageViewLecturerImg"
+        android:layout_width="37dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profilepic" />
+
+    <TextView
+        android:id="@+id/tvEmptyVacStud"
+        android:layout_width="158dp"
+        android:layout_height="35dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/viewStud"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.567" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

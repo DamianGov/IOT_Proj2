@@ -2,7 +2,10 @@ package com.example.iot_proj2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -36,6 +39,11 @@ public class ProfileLecturer extends AppCompatActivity {
 
     private FirebaseFirestore FStore;
 
+    // TODO: Remove this button
+    @BindView(R.id.btnLecGoToCreateVac)
+    Button GoToVac;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +64,12 @@ public class ProfileLecturer extends AppCompatActivity {
             LecFac.setText(value.getString("faculty"));
             LecDepar.setText(value.getString("department"));
             LecModule.setText(value.getString("module"));
+        });
+
+        // TODO: Remove this code:
+        GoToVac.setOnClickListener(view -> {
+            Intent intent = new Intent(this, CreateVacancyLecturer.class);
+            startActivity(intent);
         });
     }
     @Override

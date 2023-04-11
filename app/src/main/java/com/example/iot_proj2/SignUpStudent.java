@@ -274,17 +274,15 @@ public class SignUpStudent extends AppCompatActivity {
         DropboxInit dropboxInit = new DropboxInit();
         new Thread(() -> {
             try (InputStream inputStream = getContentResolver().openInputStream(fileUri)) {
-                // Get the file name from the file URI
 
                 String fileName = studNum + ".pdf";
 
-                // Create a Dropbox file metadata object with the file name
                 FileMetadata metadata = dropboxInit.client.files().uploadBuilder("/"+ studNum +"/"+ fileName)
                         .withMode(WriteMode.ADD)
                         .uploadAndFinish(inputStream);
 
             } catch (Exception e) {
-                // Display an error message to the user
+
             }
         }).start();
     }

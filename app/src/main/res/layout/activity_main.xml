@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewLogin"
         android:layout_width="122dp"
         android:layout_height="103dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/icons8_tutoring_64" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewLoginHeading"
         android:layout_width="202dp"
         android:layout_height="41dp"
         android:fontFamily="@font/roboto_bold"
@@ -102,7 +102,7 @@
         app:layout_constraintVertical_bias="0.757" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewLoginNeedAnAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
@@ -115,7 +115,7 @@
         app:layout_constraintVertical_bias="0.817" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/textInputLayoutLogin"
         android:layout_width="225dp"
         android:layout_height="63dp"
         app:hintEnabled="false"
@@ -179,7 +179,8 @@
             android:checked="false"
             android:fontFamily="@font/roboto"
             android:text="Student"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:buttonTint="@color/Blue"/>
 
         <RadioButton
             android:id="@+id/rbLecturer"
@@ -189,7 +190,8 @@
             android:layout_marginEnd="1dp"
             android:fontFamily="@font/roboto"
             android:text="Lecturer"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:buttonTint="@color/Blue"/>
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

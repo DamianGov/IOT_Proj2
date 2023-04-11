@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.83"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayoutLecProf"
         app:layout_constraintVertical_bias="0.636" />
 
     <TextView
@@ -76,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.83"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayoutLecProf"
         app:layout_constraintVertical_bias="0.727" />
 
     <EditText
@@ -97,7 +97,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.83"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayoutLecProf"
         app:layout_constraintVertical_bias="0.816" />
 
     <TextView
@@ -133,7 +133,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.83"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayoutLecProf"
         app:layout_constraintVertical_bias="0.444" />
 
     <EditText
@@ -154,7 +154,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.83"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayoutLecProf"
         app:layout_constraintVertical_bias="0.538" />
 
     <EditText
@@ -175,7 +175,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.83"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayoutLecProf"
         app:layout_constraintVertical_bias="0.349" />
 
     <TextView
@@ -209,7 +209,7 @@
         app:layout_constraintVertical_bias="0.538" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayoutLecProf"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/Blue"
@@ -225,7 +225,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewLectProf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
@@ -238,7 +238,7 @@
             android:textSize="24dp" />
 
         <ImageView
-            android:id="@+id/imgMenu"
+            android:id="@+id/imgMenuLecProf"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/icons8_menu_24"
@@ -246,7 +246,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageViewLecProf"
         android:layout_width="70dp"
         android:layout_height="78dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -290,7 +290,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.83"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayoutLecProf"
         app:layout_constraintVertical_bias="0.186" />
+
+    <Button
+        android:id="@+id/btnLecGoToCreateVac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Vac"
+        app:layout_constraintBottom_toTopOf="@+id/edtPLecName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.866"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutLecProf"
+        app:layout_constraintVertical_bias="0.464" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

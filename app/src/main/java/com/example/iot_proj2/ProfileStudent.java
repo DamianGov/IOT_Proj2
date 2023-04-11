@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +50,11 @@ public class ProfileStudent extends AppCompatActivity {
 
 
     private FirebaseFirestore FStore;
+
+    // TODO: Remove the following button
+    @BindView(R.id.btnTempResume)
+    Button tempResume;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +93,12 @@ public class ProfileStudent extends AppCompatActivity {
                     ProfPost.setText("Student");
                 }
             }
+        });
+
+        // TODO: Remove the following
+        tempResume.setOnClickListener(view -> {
+            Intent intent = new Intent(this, VacancyBoardStudent.class);
+            startActivity(intent);
         });
     }
 

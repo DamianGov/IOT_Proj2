@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="Blue">#0077C2</color>
     <color name="colorPrimary">#FF4081</color>
+    <color name="Withdrawn">#FF0000</color>
+    <color name="Complete">#007F00</color>
+    <color name="Available">#6495ED</color>
 </resources>
