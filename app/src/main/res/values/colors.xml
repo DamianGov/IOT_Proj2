@@ -12,4 +12,9 @@
     <color name="Withdrawn">#FF0000</color>
     <color name="Complete">#007F00</color>
     <color name="Available">#6495ED</color>
+    <color name="Pending">#FFD700</color>
+    <color name="Accepted">#007F00</color>
+    <color name="Declined">#FF0000</color>
+    <color name="Approved">#007f00</color>
+    <color name="Cancelled">#FF0000</color>
 </resources>

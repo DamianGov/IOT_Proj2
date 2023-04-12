@@ -43,6 +43,11 @@ public class ProfileLecturer extends AppCompatActivity {
     @BindView(R.id.btnLecGoToCreateVac)
     Button GoToVac;
 
+    @BindView(R.id.btnLecGoToApp)
+    Button GotToApp;
+
+    @BindView(R.id.btnLecGoToAccApp)
+    Button GoToAccApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,14 @@ public class ProfileLecturer extends AppCompatActivity {
         // TODO: Remove this code:
         GoToVac.setOnClickListener(view -> {
             Intent intent = new Intent(this, CreateVacancyLecturer.class);
+            startActivity(intent);
+        });
+        GotToApp.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ApplicationStatusLecturer.class);
+            startActivity(intent);
+        });
+        GoToAccApp.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ApplicationStatusAccepted.class);
             startActivity(intent);
         });
     }

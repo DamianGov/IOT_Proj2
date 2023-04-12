@@ -340,4 +340,16 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutStudProf"
         app:layout_constraintVertical_bias="0.285" />
 
+    <Button
+        android:id="@+id/btnTempApplication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="application"
+        app:layout_constraintBottom_toTopOf="@+id/edtPStudName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutStudProf"
+        app:layout_constraintVertical_bias="0.285" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

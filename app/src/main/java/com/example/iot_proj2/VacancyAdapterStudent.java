@@ -134,7 +134,7 @@ public class VacancyAdapterStudent extends RecyclerView.Adapter<VacancyAdapterSt
                                 Map<String, Object> data = new HashMap<>();
                                 data.put("status", "pending");
                                 data.put("student_num", UserIDStatic.getInstance().getUserId());
-                                data.put("vacancy_id", vacancy.getDocId());
+                                data.put("vacancy_id", Long.toString(vacancy.getDocId()));
                                 data.put("docId", maxid);
 
                                 newApp.set(data).addOnSuccessListener(unused -> {

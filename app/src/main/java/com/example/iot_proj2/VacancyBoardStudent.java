@@ -51,7 +51,7 @@ public class VacancyBoardStudent extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        Query queryVac = FStore.collection("Vacancy").whereEqualTo("status","1");
+        Query queryVac = FStore.collection("Vacancy").whereEqualTo("status","1").orderBy("docId",Query.Direction.DESCENDING);
         DocumentReference docRefStud = FStore.collection("Student").document(UserIDStatic.getInstance().getUserId());
 
         Task<QuerySnapshot> querySnapshotVac = queryVac.get();
@@ -69,7 +69,7 @@ public class VacancyBoardStudent extends AppCompatActivity {
                     Vacancy vacancy = documentSnapshot.toObject(Vacancy.class);
 
                     Query queryExistApp = FStore.collection("Application").whereEqualTo("student_num", UserIDStatic.getInstance().getUserId())
-                            .whereEqualTo("vacancy_id", vacancy.getDocId());
+                            .whereEqualTo("vacancy_id", Long.toString(vacancy.getDocId()));
                     Task<QuerySnapshot> queryExistingApplications = queryExistApp.get();
                     tasks.add(queryExistingApplications); // Add the task to the list of tasks
                 }
@@ -78,7 +78,7 @@ public class VacancyBoardStudent extends AppCompatActivity {
                 Tasks.whenAllSuccess(tasks.toArray(new Task[tasks.size()])).addOnSuccessListener(objects2 -> {
                     for (int i = 0; i < tasks.size(); i++) {
                         QuerySnapshot ExistingApp = tasks.get(i).getResult();
-                        if (ExistingApp.isEmpty()) {
+                        if (ExistingApp.size()==0) {
                             vacancyList.add(querySnapVac.getDocuments().get(i).toObject(Vacancy.class));
                         }
                     }

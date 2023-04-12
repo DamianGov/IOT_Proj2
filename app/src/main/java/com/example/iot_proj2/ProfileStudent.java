@@ -54,6 +54,9 @@ public class ProfileStudent extends AppCompatActivity {
     // TODO: Remove the following button
     @BindView(R.id.btnTempResume)
     Button tempResume;
+    @BindView(R.id.btnTempApplication)
+    Button tempApp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,10 @@ public class ProfileStudent extends AppCompatActivity {
         // TODO: Remove the following
         tempResume.setOnClickListener(view -> {
             Intent intent = new Intent(this, VacancyBoardStudent.class);
+            startActivity(intent);
+        });
+        tempApp.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ApplicationStatusStudent.class);
             startActivity(intent);
         });
     }

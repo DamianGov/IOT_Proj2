@@ -35,7 +35,7 @@ public class VacancyBoardLecturer extends AppCompatActivity {
 
         FStore = FirebaseFirestore.getInstance();
 
-        Query query = FStore.collection("Vacancy").whereEqualTo("created_by", UserIDStatic.getInstance().getUserId());
+        Query query = FStore.collection("Vacancy").whereEqualTo("created_by", UserIDStatic.getInstance().getUserId()).orderBy("docId",Query.Direction.DESCENDING);
         query.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful())

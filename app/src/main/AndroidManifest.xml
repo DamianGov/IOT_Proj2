@@ -17,6 +17,15 @@
         android:theme="@style/Theme.IoT_Proj2"
         tools:targetApi="31">
         <activity
+            android:name=".ApplicationStatusAccepted"
+            android:exported="false" />
+        <activity
+            android:name=".ApplicationStatusLecturer"
+            android:exported="false" />
+        <activity
+            android:name=".ApplicationStatusStudent"
+            android:exported="false" />
+        <activity
             android:name=".VacancyBoardStudent"
             android:exported="false" />
         <activity
