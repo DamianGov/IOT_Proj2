@@ -3,7 +3,7 @@ package com.example.iot_proj2;
 public class UserIDStatic {
     private static UserIDStatic instance = null;
     private String userId;
-    private String userType;
+
 
     private UserIDStatic()
     {
@@ -23,11 +23,10 @@ public class UserIDStatic {
     {
         this.userId = userId;
     }
-    public void setUserType(String userType) {this.userType = userType;}
 
     public String getUserId()
     {
         return userId;
     }
-    public String getUserType(){ return userType;}
+
 }

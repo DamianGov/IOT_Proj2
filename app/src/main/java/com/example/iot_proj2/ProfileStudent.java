@@ -100,7 +100,7 @@ public class ProfileStudent extends AppCompatActivity {
 
         // TODO: Remove the following
         tempResume.setOnClickListener(view -> {
-            Intent intent = new Intent(this, VacancyBoardStudent.class);
+            Intent intent = new Intent(this, CreateAppointmentStudent.class);
             startActivity(intent);
         });
         tempApp.setOnClickListener(view -> {

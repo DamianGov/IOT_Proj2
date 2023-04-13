@@ -45,7 +45,7 @@ public class ApplicationStatusStudent extends AppCompatActivity {
         progressDialog.show();
 
 
-        Query query = FStore.collection("Application").whereEqualTo("student_num",UserIDStatic.getInstance().getUserId()).orderBy("docId",Query.Direction.DESCENDING);;
+        Query query = FStore.collection("Application").whereEqualTo("student_num",UserIDStatic.getInstance().getUserId()).orderBy("docId",Query.Direction.DESCENDING);
 
         query.get().addOnCompleteListener(task -> {
 

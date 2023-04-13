@@ -133,13 +133,16 @@ public class MainActivity extends AppCompatActivity {
                         if(checkPassword(Password, userSnap.getString("password")))
                         {
                             UserIDStatic.getInstance().setUserId(UserNumber);
-                            UserIDStatic.getInstance().setUserType(finalUserType);
                             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                            // TODO: Go to vacancy
+
                             if(finalUserType == "Student")
-                                openProfileStud();
+                                // TODO: Remove this and Uncomment method
+                                openAppointmentStatus();
+                                //openVacancyStud();
                             else
-                                openProfileLect();
+                                // TODO: Remove this and Uncomment method
+                                openAppointmentStatusLec();
+                                //openVacancyLect();
                         }
                         else{
                             Toast.makeText(MainActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
@@ -273,16 +276,31 @@ public class MainActivity extends AppCompatActivity {
         Help.setOnClickListener(view -> openHelp());
 
     }
-    // TODO: Needs to change to Student Vacancy
-    public void openProfileStud()
+
+    // TODO: Delete this method
+    public void openAppointmentStatus()
     {
-        Intent intent = new Intent(this, ProfileStudent.class);
+        Intent intent = new Intent(this, AppointmentStatusStudent.class);
         startActivity(intent);
     }
 
-    public void openProfileLect()
+    // TODO: Delete this method
+    public void openAppointmentStatusLec()
     {
-        Intent intent = new Intent(this, ProfileLecturer.class);
+        Intent intent = new Intent(this, AppointmentStatusLecturer.class);
+        startActivity(intent);
+    }
+
+
+    public void openVacancyStud()
+    {
+        Intent intent = new Intent(this, VacancyBoardStudent.class);
+        startActivity(intent);
+    }
+
+    public void openVacancyLect()
+    {
+        Intent intent = new Intent(this, VacancyBoardLecturer.class);
         startActivity(intent);
     }
 
