@@ -179,10 +179,7 @@ public class CreateAppointmentStudent extends AppCompatActivity {
                     runOnUiThread(() -> {
                         Toast.makeText(this, "Appointment has been created", Toast.LENGTH_SHORT).show();
 
-                        // TODO: Go To Appointment Status
-                        //Intent intent = new Intent(CreateVacancyLecturer.this, VacancyBoardLecturer.class);
-                        //startActivity(intent);
-                        //finish();
+                        openAppointmentStatus();
 
                     });
                 });
@@ -275,5 +272,11 @@ public class CreateAppointmentStudent extends AppCompatActivity {
         } catch (MessagingException e) {
 
         }
+    }
+
+    private void openAppointmentStatus()
+    {
+        Intent intent = new Intent(this, AppointmentStatusStudent.class);
+        startActivity(intent);
     }
 }

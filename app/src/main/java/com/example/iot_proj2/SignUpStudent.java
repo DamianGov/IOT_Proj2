@@ -231,6 +231,7 @@ public class SignUpStudent extends AppCompatActivity {
                 data.put("name",name);
                 data.put("password",hashPassword);
                 data.put("pass_token","");
+                data.put("restrict",false);
 
                 UploadFileToDrbx(fileUri, number);
                 progressDialog.setMessage("Uploading your Resume");

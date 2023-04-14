@@ -121,6 +121,14 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            // Handle Admin Details
+            if(UserNumber.equals("0000000013") && Password.equals("AdminUser@99"))
+            {
+                Toast.makeText(this, "Welcome, Admin", Toast.LENGTH_SHORT).show();
+                openAdmin();
+                return;
+            }
+
             DocumentReference userDoc = FStore.collection(UserType).document(UserNumber);
 
             String finalUserType = UserType;
@@ -132,7 +140,15 @@ public class MainActivity extends AppCompatActivity {
                     {
                         if(checkPassword(Password, userSnap.getString("password")))
                         {
+
+                            if (userSnap.getBoolean("restrict"))
+                            {
+                                Toast.makeText(this, "Your account is restricted, please contact the Administrator.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
                             UserIDStatic.getInstance().setUserId(UserNumber);
+
                             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
                             if(finalUserType == "Student")
@@ -319,6 +335,12 @@ public class MainActivity extends AppCompatActivity {
     public void openSignUpLect()
     {
         Intent intent = new Intent(this, SignUpLecturer.class);
+        startActivity(intent);
+    }
+
+    public void openAdmin()
+    {
+        Intent intent = new Intent(this, AdminZone.class);
         startActivity(intent);
     }
 

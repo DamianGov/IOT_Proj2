@@ -242,6 +242,7 @@ public class SignUpLecturer extends AppCompatActivity {
                 data.put("module",sepModules);
                 data.put("password",hashPassword);
                 data.put("pass_token","");
+                data.put("restrict",false);
 
                 lecturerDoc.set(data).addOnSuccessListener(unused -> {
                             new Email(this,email,"Welcome to DUT Vacancy Portal","Welcome to DUT Vacancy Portal, "+name+".\n\nYour account has been successfully created with us.\n\nThank you.\nKind regards,\nVacancy Team.","Your account has been created","Account Created, but error in sending email",progressDialog).execute();
