@@ -98,7 +98,7 @@ public class SignUpStudent extends AppCompatActivity {
             finish();
         });
 
-        // TODO: Not showing first item as just "Faculty" need to resolve.
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, StaticStrings.FacultyString);
 
         Faculty.setAdapter(adapter);

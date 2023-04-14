@@ -152,13 +152,9 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
                             if(finalUserType == "Student")
-                                // TODO: Remove this and Uncomment method
-                                openAppointmentStatus();
-                                //openVacancyStud();
+                                openVacancyStud();
                             else
-                                // TODO: Remove this and Uncomment method
-                                openAppointmentStatusLec();
-                                //openVacancyLect();
+                                openVacancyLect();
                         }
                         else{
                             Toast.makeText(MainActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
@@ -293,19 +289,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // TODO: Delete this method
-    public void openAppointmentStatus()
-    {
-        Intent intent = new Intent(this, ProfileStudent.class);
-        startActivity(intent);
-    }
-
-    // TODO: Delete this method
-    public void openAppointmentStatusLec()
-    {
-        Intent intent = new Intent(this, AppointmentStatusLecturer.class);
-        startActivity(intent);
-    }
 
 
     public void openVacancyStud()

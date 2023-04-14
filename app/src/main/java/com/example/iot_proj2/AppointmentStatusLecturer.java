@@ -177,6 +177,8 @@ public class AppointmentStatusLecturer extends AppCompatActivity {
                     runOnUiThread(() -> setAdapter(appointmentList, progressDialog));
                 });
 
+            } else {
+                runOnUiThread(() -> setAdapter(appointmentList, progressDialog));
             }
 
 

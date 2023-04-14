@@ -175,11 +175,16 @@ public class ApplicationStatusLecturer extends AppCompatActivity {
 
 
 
+                        }{
+                            runOnUiThread(() -> setAdapter(applicationList,progressDialog));
                         }
 
                     });
 
 
+                }
+                else {
+                    runOnUiThread(() -> setAdapter(applicationList,progressDialog));
                 }
 
             }

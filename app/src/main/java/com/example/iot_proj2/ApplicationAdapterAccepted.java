@@ -92,7 +92,7 @@ public class ApplicationAdapterAccepted extends RecyclerView.Adapter<Application
             holder.downloadResume.setVisibility(View.GONE);
             holder.acceptApp.setVisibility(View.GONE);
             holder.declineApp.setVisibility(View.GONE);
-            holder.tvEmpty.setText("No Accepted Applications");
+            holder.tvEmpty.setText("No Applications");
         } else {
             holder.applicationTitle.setVisibility(View.VISIBLE);
             holder.applicationStudentName.setVisibility(View.VISIBLE);

@@ -151,8 +151,12 @@ public class ApplicationStatusStudent extends AppCompatActivity {
 
 
 
+              } else {
+                  runOnUiThread(()-> setAdapter(applicationList, progressDialog));
               }
 
+          } else {
+              runOnUiThread(()-> setAdapter(new ArrayList<>(), progressDialog));
           }
 
         });

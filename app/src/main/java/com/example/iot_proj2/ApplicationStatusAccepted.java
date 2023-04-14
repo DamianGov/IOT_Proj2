@@ -178,6 +178,8 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
                     });
 
 
+                }else {
+                    runOnUiThread(() -> setAdapter(applicationList,progressDialog));
                 }
             }
         });
