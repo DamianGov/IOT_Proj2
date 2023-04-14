@@ -8,31 +8,50 @@ public class StaticStrings {
             "Faculty of Health Sciences" ,
             "Faculty of Management Sciences"};
 
-    // TODO: Add more Departments
     public static String[][] DepartmentString = {
             {"Information Technology" , "Information Systems"},
             {"Statistics"},
-            {"Dance"},
-            {"Building"},
-            {"Dentistry"},
-            {"Management"}
+            {"Drama and Production Studies"},
+            {"Architecture"},
+            {"Dental Sciences"},
+            {"Applied Law"}
     };
 
-    // TODO: Add more modules otherwise will crash
     public static String[][][] ModuleString = {
 
             {
                 // For IT Department
-                    {"APDA201","APDP201"},
+                    {"APDA101,APDP101",
+                            "APDA201,APDP201",
+                            "APDA301,APDP301",
+                            "OSYS101",
+                            "MCPA201"},
 
                     // For IS Department
-                    {"ISYA101", "INMA201"}
+                    {"ISYA101", "ISYA201",
+                            "ISYA301",
+                            "INMA201"}
 
             },
             {
                 // For Statistics Department
-                    {"Applied Maths for IT"}
-
+                    {"APMC401","APPS101"}
+            },
+            {
+                // For drama and production studies
+                    {"ACTA101","ACTA201"}
+            },
+            {
+                // For architecture
+                    {"ADNA101", "PHBA101"}
+            },
+            {
+                 // For dental sciences
+                    {"DMST111","DMST211"}
+            },
+            {
+                // For Law
+                    {"BSNL101","LBRL201"}
             }
 
     };

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileStudent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/edtPStudFaculty"
@@ -273,7 +277,7 @@
             android:textSize="24dp" />
 
         <ImageView
-            android:id="@+id/imgMenuStudProf"
+            android:id="@+id/imgMenu"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/icons8_menu_24"
@@ -328,28 +332,15 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayoutStudProf"
         app:layout_constraintVertical_bias="0.186" />
 
-    <Button
-        android:id="@+id/btnTempResume"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="resume"
-        app:layout_constraintBottom_toTopOf="@+id/edtPStudName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.842"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutStudProf"
-        app:layout_constraintVertical_bias="0.285" />
-
-    <Button
-        android:id="@+id/btnTempApplication"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="application"
-        app:layout_constraintBottom_toTopOf="@+id/edtPStudName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.446"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutStudProf"
-        app:layout_constraintVertical_bias="0.285" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<com.google.android.material.navigation.NavigationView
+android:id="@+id/navigationView"
+android:layout_width="wrap_content"
+android:layout_height="match_parent"
+android:layout_gravity="end"
+app:headerLayout="@layout/layout_nav_header"
+app:menu="@menu/navigation_menu" />
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>

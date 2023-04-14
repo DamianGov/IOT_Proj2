@@ -267,4 +267,9 @@ public class SignUpLecturer extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed()
+    {
+        return;
+    }
 }

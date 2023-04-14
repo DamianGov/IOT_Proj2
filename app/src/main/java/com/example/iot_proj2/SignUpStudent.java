@@ -303,4 +303,9 @@ public class SignUpStudent extends AppCompatActivity {
         return fileName;
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        return;
+    }
 }

@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
     // TODO: Delete this method
     public void openAppointmentStatus()
     {
-        Intent intent = new Intent(this, AppointmentStatusStudent.class);
+        Intent intent = new Intent(this, ProfileStudent.class);
         startActivity(intent);
     }
 

@@ -2,6 +2,8 @@ package com.example.iot_proj2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -12,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +28,7 @@ import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.WriteMode;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,12 +55,73 @@ public class ResumeStudent extends AppCompatActivity {
 
     private Uri fileUriUpdate = null;
 
+    private NavigationView nav_View;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resume_student);
 
         ButterKnife.bind(this);
+
+        // NAV
+        final DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        findViewById(R.id.imgMenu).setOnClickListener(view -> {
+            drawerLayout.openDrawer(GravityCompat.END);
+        });
+        final NavigationView NavView = (NavigationView) findViewById(R.id.navigationView);
+        nav_View = (NavigationView) findViewById(R.id.navigationView);
+        Menu navMenu = nav_View.getMenu();
+        navMenu.findItem(R.id.mLecturerProfile).setVisible(false);
+        navMenu.findItem(R.id.mLecturerVacancyBoard).setVisible(false);
+        navMenu.findItem(R.id.mLecturerCreateVac).setVisible(false);
+        navMenu.findItem(R.id.mLecturerApplicationStatus).setVisible(false);
+        navMenu.findItem(R.id.mLecturerApplicationAcceptStatus).setVisible(false);
+        navMenu.findItem(R.id.mLecturerAppointmentStatus).setVisible(false);
+        NavView.setNavigationItemSelectedListener(item -> {
+
+            int id = item.getItemId();
+
+            switch (id)
+            {
+                case R.id.mStudentProfile: {
+                    Intent intent = new Intent(this, ProfileStudent.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mStudentApplicationStatus:
+                {
+                    Intent intent = new Intent(this, ApplicationStatusStudent.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mStudentAppointmentStatus:{
+                    Intent intent = new Intent(this, AppointmentStatusStudent.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mStudentCreateAppointment:{
+                    Intent intent = new Intent(this, CreateAppointmentStudent.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mStudentVacancyBoard:{
+                    Intent intent = new Intent(this, VacancyBoardStudent.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLogOut:{
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                break;
+            }
+
+            drawerLayout.closeDrawer(GravityCompat.END);
+            return true;
+        });
+
 
         Download.setOnClickListener(view -> {
             DropboxInit dropboxInit = new DropboxInit();
@@ -187,4 +252,9 @@ public class ResumeStudent extends AppCompatActivity {
         }).start();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        return;
+    }
 }

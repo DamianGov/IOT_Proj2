@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/mLecturerProfile"
+        android:title="Profile"
+        android:icon="@drawable/icon_profile"/>
+    <item android:title="Profile"
+        android:id="@+id/mStudentProfile"
+        android:icon="@drawable/icon_profile"/>
+    <item android:title="Vacancy Board"
+        android:id="@+id/mLecturerVacancyBoard"
+        android:icon="@drawable/icon_vacancy_board"/>
+    <item android:title="Vacancy Board"
+        android:id="@+id/mStudentVacancyBoard"
+        android:icon="@drawable/icon_vacancy_board"/>
+    <item android:title="Create a Vacancy"
+        android:id="@+id/mLecturerCreateVac"
+        android:icon="@drawable/icon_create_vacancy"/>
+    <item android:title="Applications"
+        android:id="@+id/mLecturerApplicationStatus"
+        android:icon="@drawable/icon_application_status"/>
+    <item android:title="Applications"
+        android:id="@+id/mStudentApplicationStatus"
+        android:icon="@drawable/icon_application_status"/>
+    <item android:title="Accepted Applications"
+        android:id="@+id/mLecturerApplicationAcceptStatus"
+        android:icon="@drawable/icon_accepted_apps"/>
+    <item android:title="Appointments"
+        android:id="@+id/mLecturerAppointmentStatus"
+        android:icon="@drawable/icon_appointment_status"/>
+    <item android:title="Appointments"
+        android:id="@+id/mStudentAppointmentStatus"
+        android:icon="@drawable/icon_appointment_status"/>
+    <item android:title="Book an Appointment"
+        android:id="@+id/mStudentCreateAppointment"
+        android:icon="@drawable/icon_create_appointment"/>
+    <item android:title="Update my Resume"
+        android:id="@+id/mStudentUpdateResume"
+        android:icon="@drawable/icon_resume_update"/>
+    <item android:title="Log Out"
+        android:id="@+id/mLogOut"
+        android:icon="@drawable/icon_log_out"/>
+</menu>

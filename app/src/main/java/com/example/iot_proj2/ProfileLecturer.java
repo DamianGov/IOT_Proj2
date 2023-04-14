@@ -1,13 +1,19 @@
 package com.example.iot_proj2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -39,15 +45,7 @@ public class ProfileLecturer extends AppCompatActivity {
 
     private FirebaseFirestore FStore;
 
-    // TODO: Remove this button
-    @BindView(R.id.btnLecGoToCreateVac)
-    Button GoToVac;
-
-    @BindView(R.id.btnLecGoToApp)
-    Button GotToApp;
-
-    @BindView(R.id.btnLecGoToAccApp)
-    Button GoToAccApp;
+    private NavigationView nav_View;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,64 @@ public class ProfileLecturer extends AppCompatActivity {
         setContentView(R.layout.activity_profile_lecturer);
 
         ButterKnife.bind(this);
+
+        // NAV
+        final DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        findViewById(R.id.imgMenu).setOnClickListener(view -> {
+            drawerLayout.openDrawer(GravityCompat.END);
+        });
+        final NavigationView NavView = (NavigationView) findViewById(R.id.navigationView);
+        nav_View = (NavigationView) findViewById(R.id.navigationView);
+        Menu navMenu = nav_View.getMenu();
+        navMenu.findItem(R.id.mStudentProfile).setVisible(false);
+        navMenu.findItem(R.id.mStudentVacancyBoard).setVisible(false);
+        navMenu.findItem(R.id.mStudentApplicationStatus).setVisible(false);
+        navMenu.findItem(R.id.mStudentAppointmentStatus).setVisible(false);
+        navMenu.findItem(R.id.mStudentCreateAppointment).setVisible(false);
+        navMenu.findItem(R.id.mStudentUpdateResume).setVisible(false);
+        NavView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+
+            switch (id) {
+                case R.id.mLecturerVacancyBoard: {
+                    Intent intent = new Intent(this, VacancyBoardLecturer.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLecturerCreateVac: {
+                    Intent intent = new Intent(this, CreateVacancyLecturer.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLecturerApplicationStatus: {
+                    Intent intent = new Intent(this, ApplicationStatusLecturer.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLecturerApplicationAcceptStatus: {
+                    Intent intent = new Intent(this, ApplicationStatusAccepted.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLecturerAppointmentStatus: {
+                    Intent intent = new Intent(this, AppointmentStatusLecturer.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLogOut:{
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                break;
+            }
+
+            drawerLayout.closeDrawer(GravityCompat.END);
+            return true;
+        });
+
+
 
         FStore = FirebaseFirestore.getInstance();
 
@@ -71,19 +127,6 @@ public class ProfileLecturer extends AppCompatActivity {
             LecModule.setText(value.getString("module"));
         });
 
-        // TODO: Remove this code:
-        GoToVac.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CreateVacancyLecturer.class);
-            startActivity(intent);
-        });
-        GotToApp.setOnClickListener(view -> {
-            Intent intent = new Intent(this, ApplicationStatusLecturer.class);
-            startActivity(intent);
-        });
-        GoToAccApp.setOnClickListener(view -> {
-            Intent intent = new Intent(this, ApplicationStatusAccepted.class);
-            startActivity(intent);
-        });
     }
     @Override
     public void onBackPressed()
