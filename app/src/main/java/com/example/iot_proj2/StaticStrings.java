@@ -21,9 +21,9 @@ public class StaticStrings {
 
             {
                 // For IT Department
-                    {"APDA101,APDP101",
-                            "APDA201,APDP201",
-                            "APDA301,APDP301",
+                    {"APDA101","APDP101",
+                            "APDA201","APDP201",
+                            "APDA301","APDP301",
                             "OSYS101",
                             "MCPA201"},
 
