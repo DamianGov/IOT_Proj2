@@ -2,7 +2,24 @@ package com.example.iot_proj2;
 
 public class Appointment {
     private long docId;
-    private String staff_num, start_time, status, stud_num, lecturerName, lecturerEmail, studentName, studentEmail;
+    private String staff_num;
+    private String start_time;
+    private String status;
+    private String stud_num;
+    private String lecturerName;
+    private String lecturerEmail;
+    private String studentName;
+    private String studentEmail;
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    private String reason;
 
     public String getLecturerName() {
         return lecturerName;
@@ -39,12 +56,13 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(long docId, String staff_num, String start_time, String status, String stud_num) {
+    public Appointment(long docId, String staff_num, String start_time, String status, String stud_num, String reason) {
         this.docId = docId;
         this.staff_num = staff_num;
         this.start_time = start_time;
         this.status = status;
         this.stud_num = stud_num;
+        this.reason = reason;
     }
 
     public long getDocId() {

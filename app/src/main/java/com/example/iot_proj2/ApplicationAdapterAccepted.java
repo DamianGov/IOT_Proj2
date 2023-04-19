@@ -50,7 +50,7 @@ public class ApplicationAdapterAccepted extends RecyclerView.Adapter<Application
 
     public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
 
-        TextView applicationTitle, applicationStudentName, applicationStudentNum, applicationDescrip, applicationType, tvEmpty;
+        TextView applicationTitle, applicationStudentName, applicationStudentNum, applicationDescrip, applicationType, tvEmpty, applicationSemester, applicationSalary;
 
         View seperator;
 
@@ -69,6 +69,8 @@ public class ApplicationAdapterAccepted extends RecyclerView.Adapter<Application
             acceptApp = itemView.findViewById(R.id.acceptAppButtonLec);
             declineApp = itemView.findViewById(R.id.declineAppButtonLec);
             seperator = itemView.findViewById(R.id.viewAppLec);
+            applicationSemester = itemView.findViewById(R.id.applicationSemesterTextViewLecturer);
+            applicationSalary = itemView.findViewById(R.id.applicationSalaryTextViewLecturer);
         }
     }
 
@@ -92,6 +94,8 @@ public class ApplicationAdapterAccepted extends RecyclerView.Adapter<Application
             holder.downloadResume.setVisibility(View.GONE);
             holder.acceptApp.setVisibility(View.GONE);
             holder.declineApp.setVisibility(View.GONE);
+            holder.applicationSalary.setVisibility(View.GONE);
+            holder.applicationSemester.setVisibility(View.GONE);
             holder.tvEmpty.setText("No Applications");
         } else {
             holder.applicationTitle.setVisibility(View.VISIBLE);
@@ -104,6 +108,8 @@ public class ApplicationAdapterAccepted extends RecyclerView.Adapter<Application
             holder.acceptApp.setVisibility(View.GONE);
             holder.declineApp.setVisibility(View.GONE);
             holder.seperator.setVisibility(View.VISIBLE);
+            holder.applicationSalary.setVisibility(View.VISIBLE);
+            holder.applicationSemester.setVisibility(View.VISIBLE);
 
             Application application = applicationList.get(position);
 
@@ -112,6 +118,10 @@ public class ApplicationAdapterAccepted extends RecyclerView.Adapter<Application
             holder.applicationStudentNum.setText(application.getStudent_num());
             holder.applicationDescrip.setText(application.getDescription());
             holder.applicationType.setText(application.getType());
+
+            holder.applicationSemester.setText("Semester "+application.getSemester());
+            holder.applicationSalary.setText(application.getSalary()+" per/hour");
+
 
             holder.downloadResume.setOnClickListener(view -> {
                 DropboxInit dropboxInit = new DropboxInit();

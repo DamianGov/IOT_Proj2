@@ -67,6 +67,9 @@ public class CreateAppointmentStudent extends AppCompatActivity {
     @BindView(R.id.spnCreateAppointmentLecturer)
     Spinner Lecturer;
 
+    @BindView(R.id.spnCreateAppointmentReason)
+    Spinner Reason;
+
     @BindView(R.id.btnSubmitBooking)
     Button Submit;
 
@@ -150,6 +153,9 @@ public class CreateAppointmentStudent extends AppCompatActivity {
         ArrayAdapter<String> adapterTime = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, StaticStrings.TimeStringForView);
         TimeApp.setAdapter(adapterTime);
 
+        ArrayAdapter<String> adapterReason = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, StaticStrings.AppointmentReasons);
+        Reason.setAdapter(adapterReason);
+
         FStore = FirebaseFirestore.getInstance();
 
         CollectionReference lecturerCol = FStore.collection("Lecturer");
@@ -188,6 +194,8 @@ public class CreateAppointmentStudent extends AppCompatActivity {
 
                 String dateAppointment = DateApp.getText().toString();
                 String timeAppointment = TimeApp.getSelectedItem().toString();
+
+                String reason = Reason.getSelectedItem().toString();
 
                 String joinedDateTime = dateAppointment + " " +  StaticStrings.TimeString[TimeApp.getSelectedItemPosition()];
 
@@ -234,6 +242,7 @@ public class CreateAppointmentStudent extends AppCompatActivity {
                 data.put("staff_num",lecturerStaffNum);
                 data.put("start_time",joinedDateTime);
                 data.put("status","pending");
+                data.put("reason",reason);
                 data.put("stud_num", UserIDStatic.getInstance().getUserId());
 
                 newAppointment.set(data).addOnSuccessListener(unused -> {

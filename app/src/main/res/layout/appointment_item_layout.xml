@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#EDEDED"
     android:padding="16dp">
 
     <TextView
@@ -46,12 +47,12 @@
         android:id="@+id/appointmentStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:fontFamily="@font/roboto"
         android:text="Appointment Status"
+        android:layout_marginTop="12dp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointmentTimeTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/appointmentReasonTextView" />
 
     <TextView
         android:id="@+id/appointmentDateTextView"
@@ -84,7 +85,7 @@
         android:layout_width="34dp"
         android:layout_height="30dp"
         android:layout_gravity="end"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,5 +103,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/approveAppointmentButtonLec"
         app:srcCompat="@drawable/icons8_cancel_67__1_" />
+
+    <TextView
+        android:id="@+id/appointmentReasonTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="Appointment Reason"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appointmentTimeTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

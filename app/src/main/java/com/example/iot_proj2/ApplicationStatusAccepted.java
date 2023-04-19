@@ -145,6 +145,8 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
                                             application.setModule(vacancy.getModule());
                                             application.setType(vacancy.getType());
                                             application.setDescription(vacancy.getDescription());
+                                            application.setSemester(vacancy.getSemester());
+                                            application.setSalary(vacancy.getSalary());
                                             DocumentReference nameStud = FStore.collection("Student").document(application.getStudent_num());
                                             Task<DocumentSnapshot> studSnap = nameStud.get();
                                             tasksNames.add(studSnap);

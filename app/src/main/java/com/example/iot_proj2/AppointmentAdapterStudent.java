@@ -46,7 +46,7 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
 
     public static class AppointmentViewHolder extends RecyclerView.ViewHolder
     {
-        TextView appointmentTitle, appointmentTime, appointmentStatus, appointmentDate, tvEmpty;
+        TextView appointmentTitle, appointmentTime, appointmentStatus, appointmentDate, tvEmpty, appointmentReason;
         ImageView withdrawButton;
         View separator;
 
@@ -60,6 +60,7 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
             tvEmpty = itemView.findViewById(R.id.tvEmptyAppointmentStud);
             withdrawButton = itemView.findViewById(R.id.withdrawAppointmentButton);
             separator = itemView.findViewById(R.id.viewAppointmentStud);
+            appointmentReason = itemView.findViewById(R.id.appointmentReasonTextViewStud);
         }
 
     }
@@ -81,6 +82,7 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
             holder.appointmentDate.setVisibility(View.GONE);
             holder.withdrawButton.setVisibility(View.GONE);
             holder.separator.setVisibility(View.GONE);
+            holder.appointmentReason.setVisibility(View.GONE);
             holder.tvEmpty.setVisibility(View.VISIBLE);
             holder.tvEmpty.setText("No Appointments");
         } else {
@@ -90,6 +92,7 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
             holder.appointmentDate.setVisibility(View.VISIBLE);
             holder.withdrawButton.setVisibility(View.VISIBLE);
             holder.separator.setVisibility(View.VISIBLE);
+            holder.appointmentReason.setVisibility(View.VISIBLE);
             holder.tvEmpty.setVisibility(View.GONE);
 
             Appointment appointment = appointmentList.get(position);
@@ -111,6 +114,7 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
 
             holder.appointmentTime.setText(timeOutput);
             holder.appointmentDate.setText(dateOutput);
+            holder.appointmentReason.setText(appointment.getReason());
 
             String status = appointment.getStatus();
             holder.appointmentStatus.setText(UCharacter.toTitleCase(Locale.UK,status,null,0));

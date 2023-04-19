@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#EDEDED"
     android:padding="16dp">
 
     <TextView
@@ -33,21 +34,21 @@
         android:id="@+id/applicationDescriptionTextViewLecturer"
         android:layout_width="336dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto"
+        android:layout_marginTop="12dp"
         android:text="Application Description"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/applicationNumberTextViewLecturer" />
+        app:layout_constraintTop_toBottomOf="@+id/applicationSalaryTextViewLecturer" />
 
     <ImageView
         android:id="@+id/downloadResumeAppButtonLec"
         android:layout_width="34dp"
         android:layout_height="30dp"
         android:layout_gravity="end"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,9 +60,9 @@
         android:layout_width="34dp"
         android:layout_height="30dp"
         android:layout_gravity="end"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.997"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/downloadResumeAppButtonLec"
         app:srcCompat="@drawable/icons8_accept_67" />
@@ -71,9 +72,9 @@
         android:layout_width="34dp"
         android:layout_height="30dp"
         android:layout_gravity="end"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.997"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/acceptAppButtonLec"
         app:srcCompat="@drawable/icons8_cancel_67__1_" />
@@ -125,5 +126,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.567" />
+
+    <TextView
+        android:id="@+id/applicationSalaryTextViewLecturer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="Application Salary"
+        android:textColor="@color/black"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/applicationSemesterTextViewLecturer" />
+
+    <TextView
+        android:id="@+id/applicationSemesterTextViewLecturer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="Application Semester"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/applicationNumberTextViewLecturer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

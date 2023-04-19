@@ -142,6 +142,8 @@ public class ApplicationStatusStudent extends AppCompatActivity {
                               application.setType(VacDetails.getString("type"));
                               application.setDescription(VacDetails.getString("description"));
                               application.setPersonName(VacDetails.getString("lecturer"));
+                              application.setSemester(VacDetails.getString("semester"));
+                              application.setSalary(VacDetails.getString("salary"));
                           }
                       }
 

@@ -39,6 +39,25 @@ public class Application {
     private String vacancy_id;
 
 
+    private String salary;
+    private String semester;
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
     private String module;
     private String type;
     private String description;

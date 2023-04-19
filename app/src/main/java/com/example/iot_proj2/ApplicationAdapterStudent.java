@@ -39,7 +39,7 @@ public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationA
 
     public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
 
-        TextView applicationTitle, applicationPosition, applicationDescription, applicationStatus, applicationLecturer, tvEmpty;
+        TextView applicationTitle, applicationPosition, applicationDescription, applicationStatus, applicationLecturer, tvEmpty, applicationSemester, applicationSalary;
         ImageView withdrawButton;
         View viewSeparator;
 
@@ -53,6 +53,8 @@ public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationA
             withdrawButton = itemView.findViewById(R.id.withdrawAppButton);
             viewSeparator = itemView.findViewById(R.id.viewAppStud);
             tvEmpty = itemView.findViewById(R.id.tvEmptyAppStud);
+            applicationSalary = itemView.findViewById(R.id.applicationSalaryTextViewStudent);
+            applicationSemester = itemView.findViewById(R.id.applicationSemesterTextViewStudent);
         }
 
     }
@@ -75,6 +77,8 @@ public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationA
             holder.viewSeparator.setVisibility(View.GONE);
             holder.applicationStatus.setVisibility(View.GONE);
             holder.applicationLecturer.setVisibility(View.GONE);
+            holder.applicationSemester.setVisibility(View.GONE);
+            holder.applicationSalary.setVisibility(View.GONE);
            holder.tvEmpty.setVisibility(View.VISIBLE);
             holder.tvEmpty.setText("No Applications");
         } else {
@@ -86,6 +90,8 @@ public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationA
             holder.applicationStatus.setVisibility(View.VISIBLE);
             holder.applicationLecturer.setVisibility(View.VISIBLE);
             holder.tvEmpty.setVisibility(View.GONE);
+            holder.applicationSemester.setVisibility(View.VISIBLE);
+            holder.applicationSalary.setVisibility(View.VISIBLE);
 
             Application application = applicationList.get(position);
 
@@ -95,6 +101,10 @@ public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationA
             holder.applicationPosition.setText(application.getType());
             holder.applicationDescription.setText(application.getDescription());
             holder.applicationLecturer.setText(application.getPersonName());
+
+            holder.applicationSemester.setText("Semester "+application.getSemester());
+            holder.applicationSalary.setText(application.getSalary() + " per/hour");
+
 
             String status = application.getStatus();
             holder.applicationStatus.setText(UCharacter.toTitleCase(Locale.UK,status,null,0));

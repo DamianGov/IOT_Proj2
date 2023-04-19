@@ -72,6 +72,16 @@ public class StaticStrings {
             "02:00 PM",  "02:30 PM",
             "03:00 PM"};
 
+
+    public static String[] AppointmentReasons = {
+            "Discuss available vacancy",
+            "Clarification of course material",
+            "Discuss tutoring strategies",
+            "Discuss student progress",
+            "Seek feedback",
+            "Personal matters"
+    };
+
     public static String hashPassword(String password)
     {
         try {

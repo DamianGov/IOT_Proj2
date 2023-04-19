@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.checkerframework.checker.units.qual.A;
 import org.w3c.dom.Document;
 
 import java.util.Arrays;
@@ -44,6 +45,12 @@ public class CreateVacancyLecturer extends AppCompatActivity {
 
     @BindView(R.id.spnLecCVModule)
     Spinner Module;
+
+    @BindView(R.id.spnLecCVSemester)
+    Spinner Semester;
+
+    @BindView(R.id.edtLecCVSalary)
+    EditText Salary;
 
     @BindView(R.id.edtLecCVDescript)
     EditText Description;
@@ -132,6 +139,13 @@ public class CreateVacancyLecturer extends AppCompatActivity {
 
         String StaffNum = UserIDStatic.getInstance().getUserId();
 
+        String[] semester = {"Semester 1","Semester 2"};
+
+        ArrayAdapter<String> SemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,semester);
+        Semester.setAdapter(SemAdapter);
+        Semester.setPrompt("Select Semester");
+
+
         DocumentReference docRef = FStore.collection("Lecturer").document(StaffNum);
 
         docRef.addSnapshotListener((value, error) -> {
@@ -145,12 +159,28 @@ public class CreateVacancyLecturer extends AppCompatActivity {
 
         Submit.setOnClickListener(view -> {
                 String module = Module.getSelectedItem().toString();
+                String salary = Salary.getText().toString();
                 String description = Description.getText().toString().trim();
                 String position;
                 if (Tutor.isChecked())
                     position = "Tutor";
                 else
                     position = "Teaching Assistant";
+
+                String semsterChosen;
+                int SemesterIndex = Semester.getSelectedItemPosition();
+                if (SemesterIndex == 0)
+                    semsterChosen = "1";
+                else
+                    semsterChosen = "2";
+
+                if(salary.length() == 0)
+                {
+                    Salary.setError("Please enter the Salary per/hour");
+                    return;
+                }
+
+                salary = "R" + salary;
 
                 if (description.length() == 0)
                 {
@@ -170,7 +200,8 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                 Task<QuerySnapshot> task = getLatestId.get();
                 Task<DocumentSnapshot> GetLec = docLec.get();
 
-                Tasks.whenAllSuccess(task,GetLec).addOnSuccessListener(objects -> {
+            String finalSalary = salary;
+            Tasks.whenAllSuccess(task,GetLec).addOnSuccessListener(objects -> {
                     QuerySnapshot taskResult = task.getResult();
                     DocumentSnapshot lecDoc = GetLec.getResult();
                     int maxid = 1;
@@ -187,6 +218,8 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                     Map<String, Object> dataVals = new HashMap<>();
                     dataVals.put("module",module);
                     dataVals.put("description",description);
+                    dataVals.put("semester",semsterChosen);
+                    dataVals.put("salary", finalSalary);
                     dataVals.put("status","1");
                     dataVals.put("type",position);
                     dataVals.put("created_by",UserIDStatic.getInstance().getUserId());

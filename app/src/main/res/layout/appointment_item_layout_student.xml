@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#EDEDED"
     android:padding="16dp">
 
     <TextView
@@ -56,12 +57,12 @@
         android:id="@+id/appointmentStatusTextViewStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:fontFamily="@font/roboto"
         android:text="Appointment Status"
         android:textColor="@color/black"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointmentTimeTextViewStudent" />
+        app:layout_constraintTop_toBottomOf="@+id/appointmentReasonTextViewStud" />
 
     <TextView
         android:id="@+id/appointmentDateTextViewStudent"
@@ -88,5 +89,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.567" />
+
+    <TextView
+        android:id="@+id/appointmentReasonTextViewStud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="Appointment Reason"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appointmentTimeTextViewStudent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

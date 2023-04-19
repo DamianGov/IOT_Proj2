@@ -73,12 +73,30 @@ public class Vacancy {
 
     private String lecturer;
 
+    private String salary, semester;
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
     public Vacancy()
     {
 
     }
 
-    public Vacancy(String created_by, String description, long docId, String module, String status, String type, String lecturer)
+    public Vacancy(String created_by, String description, long docId, String module, String status, String type, String lecturer, String semester, String salary)
     {
         this.created_by = created_by;
         this.description = description;
@@ -87,6 +105,8 @@ public class Vacancy {
         this.status = status;
         this.type = type;
         this.lecturer = lecturer;
+        this.semester = semester;
+        this.salary = salary;
     }
 
 

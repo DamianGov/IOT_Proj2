@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#EDEDED"
     android:padding="16dp">
     <!-- Example layout for vacancy item in RecyclerView -->
 
@@ -12,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/roboto"
         android:text="Vacancy Lecturer"
         android:textColor="@color/black"
@@ -23,7 +24,7 @@
         android:id="@+id/vacancyTitleTextViewStud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Vacancy Title"
         android:textColor="@color/black"
@@ -36,7 +37,7 @@
         android:id="@+id/vacancyPositionTextViewStud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Vacancy Position"
         android:textColor="@color/black"
@@ -48,13 +49,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
         android:fontFamily="@font/roboto"
         android:text="Vacancy Description"
         android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vacancyPositionTextViewStud" />
+        app:layout_constraintTop_toBottomOf="@+id/vacancySalaryTextViewStud" />
 
     <ImageView
         android:id="@+id/applyButton"
@@ -72,19 +72,19 @@
         android:id="@+id/viewStud"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
         android:layout_marginTop="12dp"
+        android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vacancyDescriptionTextViewStud"
-        app:layout_constraintVertical_bias="0.823" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageViewLecturerImg"
         android:layout_width="37dp"
         android:layout_height="42dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:layout_marginStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.042"
@@ -106,6 +106,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.567" />
+
+    <TextView
+        android:id="@+id/vacancySemesterTextViewStud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="Vacancy Semester"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vacancyPositionTextViewStud" />
+
+    <TextView
+        android:id="@+id/vacancySalaryTextViewStud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="Vacancy Salary"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vacancySemesterTextViewStud" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,6 +41,9 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
         TextView vacancyDescriptionTextView;
         TextView vacancyStatusTextView;
 
+        TextView vacancySemesterTextView;
+        TextView vacancySalaryTextView;
+
         View vacancyView;
         TextView vacancyEmpty;
         ImageView withdrawButton;
@@ -54,6 +57,8 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
             vacancyView = itemView.findViewById(R.id.viewLec);
             vacancyEmpty = itemView.findViewById(R.id.tvEmptyVacLec);
             withdrawButton = itemView.findViewById(R.id.withdrawButton);
+            vacancySemesterTextView = itemView.findViewById(R.id.vacancySemesterTextView);
+            vacancySalaryTextView = itemView.findViewById(R.id.vacancySalaryTextView);
         }
     }
 
@@ -74,6 +79,8 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
             holder.withdrawButton.setVisibility(View.GONE);
             holder.vacancyView.setVisibility(View.GONE);
             holder.vacancyStatusTextView.setVisibility(View.GONE);
+            holder.vacancySemesterTextView.setVisibility(View.GONE);
+            holder.vacancySalaryTextView.setVisibility(View.GONE);
             holder.vacancyEmpty.setVisibility(View.VISIBLE);
             holder.vacancyEmpty.setText("No Vacancies");
 
@@ -84,6 +91,8 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
             holder.withdrawButton.setVisibility(View.VISIBLE);
             holder.vacancyView.setVisibility(View.VISIBLE);
             holder.vacancyStatusTextView.setVisibility(View.VISIBLE);
+            holder.vacancySemesterTextView.setVisibility(View.VISIBLE);
+            holder.vacancySalaryTextView.setVisibility(View.VISIBLE);
             holder.vacancyEmpty.setVisibility(View.GONE);
         Vacancy vacancy = vacancyList.get(position);
 
@@ -117,6 +126,10 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
         holder.vacancyPositionTextView.setText(vacancy.getType());
 
         holder.vacancyDescriptionTextView.setText(vacancy.getDescription());
+
+        holder.vacancySemesterTextView.setText("Semester " + vacancy.getSemester());
+
+        holder.vacancySalaryTextView.setText(vacancy.getSalary()+" per/hour");
 
         if ("1".equals(vacancy.getStatus())) { // Show the withdraw button only if the status is "Available"
             holder.withdrawButton.setVisibility(View.VISIBLE);

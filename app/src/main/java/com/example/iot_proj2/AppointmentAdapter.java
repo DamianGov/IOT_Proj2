@@ -52,7 +52,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     public static class AppointmentViewHolder extends RecyclerView.ViewHolder
     {
-        TextView appointmentTitle, appointmentTime, appointmentStatus, appointmentDate, tvEmpty;
+        TextView appointmentTitle, appointmentTime, appointmentStatus, appointmentDate, tvEmpty, appointmentReason;
         ImageView approveButton, cancelButton;
         View separator;
 
@@ -67,6 +67,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             approveButton = itemView.findViewById(R.id.approveAppointmentButtonLec);
             cancelButton = itemView.findViewById(R.id.cancelAppointmentButtonLec);
             separator = itemView.findViewById(R.id.viewAppointmentLec);
+            appointmentReason = itemView.findViewById(R.id.appointmentReasonTextView);
         }
 
     }
@@ -88,6 +89,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             holder.approveButton.setVisibility(View.GONE);
             holder.cancelButton.setVisibility(View.GONE);
             holder.separator.setVisibility(View.GONE);
+            holder.appointmentReason.setVisibility(View.GONE);
             holder.tvEmpty.setVisibility(View.VISIBLE);
             holder.tvEmpty.setText("No Appointments");
         } else {
@@ -98,6 +100,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             holder.approveButton.setVisibility(View.VISIBLE);
             holder.cancelButton.setVisibility(View.VISIBLE);
             holder.separator.setVisibility(View.VISIBLE);
+            holder.appointmentReason.setVisibility(View.VISIBLE);
             holder.tvEmpty.setVisibility(View.GONE);
 
             Appointment appointment = appointmentList.get(position);
@@ -119,6 +122,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
             holder.appointmentTime.setText(timeOutput);
             holder.appointmentDate.setText(dateOutput);
+            holder.appointmentReason.setText(appointment.getReason());
 
             String status = appointment.getStatus();
 

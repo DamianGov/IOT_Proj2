@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#EDEDED">
     <LinearLayout
         android:id="@+id/linearLayoutStudCreateAppointment"
         android:layout_width="match_parent"
@@ -65,65 +66,82 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.176" />
 
-    <EditText
-        android:id="@+id/edtCreateAppointmentDate"
-        android:layout_width="310dp"
-        android:layout_height="41dp"
-        android:background="@drawable/custom_input"
-        android:clickable="true"
-        android:ems="10"
-        android:focusable="false"
-        android:fontFamily="@font/roboto"
-        android:hint="Choose Date"
-        android:inputType="textPersonName"
-        android:longClickable="false"
-        android:onClick="showDatePicker"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColorHint="#5A5A5A"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.321" />
 
-    <Spinner
-        android:id="@+id/spnCreateAppointmentTime"
-        android:layout_width="310dp"
-        android:layout_height="41dp"
-        android:background="@drawable/custom_spinner"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:fontFamily="@font/roboto"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.471" />
+        <Spinner
+            android:id="@+id/spnCreateAppointmentReason"
+            android:layout_width="310dp"
+            android:layout_height="41dp"
+            android:background="@drawable/custom_spinner"
+            android:fontFamily="@font/roboto"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.307" />
 
-    <Button
-        android:id="@+id/btnSubmitBooking"
-        android:layout_width="223dp"
-        android:layout_height="29dp"
-        android:background="@drawable/custom_button"
-        android:fontFamily="@font/roboto"
-        android:text="Create Booking"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.636" />
+        <EditText
+            android:id="@+id/edtCreateAppointmentDate"
+            android:layout_width="310dp"
+            android:layout_height="41dp"
+            android:background="@drawable/custom_input"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="false"
+            android:fontFamily="@font/roboto"
+            android:hint="Choose Date"
+            android:inputType="textPersonName"
+            android:longClickable="false"
+            android:onClick="showDatePicker"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColorHint="#5A5A5A"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.424" />
+
+        <Spinner
+            android:id="@+id/spnCreateAppointmentTime"
+            android:layout_width="310dp"
+            android:layout_height="41dp"
+            android:background="@drawable/custom_spinner"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:fontFamily="@font/roboto"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.566" />
+
+        <Button
+            android:id="@+id/btnSubmitBooking"
+            android:layout_width="223dp"
+            android:layout_height="29dp"
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/roboto"
+            android:text="Create Booking"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.698" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 <com.google.android.material.navigation.NavigationView
 android:id="@+id/navigationView"

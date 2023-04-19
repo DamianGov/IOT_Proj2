@@ -147,6 +147,8 @@ public class ApplicationStatusLecturer extends AppCompatActivity {
                                             application.setModule(vacancy.getModule());
                                             application.setType(vacancy.getType());
                                             application.setDescription(vacancy.getDescription());
+                                            application.setSalary(vacancy.getSalary());
+                                            application.setSemester(vacancy.getSemester());
                                             DocumentReference nameStud = FStore.collection("Student").document(application.getStudent_num());
                                             Task<DocumentSnapshot> studSnap = nameStud.get();
                                             tasksNames.add(studSnap);

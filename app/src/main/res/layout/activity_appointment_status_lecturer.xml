@@ -8,7 +8,8 @@
     tools:context=".AppointmentStatusLecturer">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#EDEDED">
     <LinearLayout
         android:id="@+id/linearLayoutLecAppointmentStatus"
         android:layout_width="match_parent"
@@ -51,6 +52,7 @@
         android:layout_width="360dp"
         android:layout_height="633dp"
         android:fontFamily="@font/roboto"
+        android:background="#EDEDED"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"

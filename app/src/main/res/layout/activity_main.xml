@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#EDEDED"
     tools:context=".MainActivity">
 
     <ImageView
@@ -150,7 +150,7 @@
         android:id="@+id/imgHelp"
         android:layout_width="58dp"
         android:layout_height="50dp"
-        android:foreground="@drawable/icons8_help_48__1_"
+        android:foreground="@drawable/icons8_help_50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
