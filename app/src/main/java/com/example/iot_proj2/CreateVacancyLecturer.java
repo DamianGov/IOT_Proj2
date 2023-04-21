@@ -17,17 +17,22 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
+import com.google.firebase.firestore.local.QueryResult;
 
 import org.checkerframework.checker.units.qual.A;
 import org.w3c.dom.Document;
@@ -212,6 +217,7 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                         maxid = (int) id + 1;
                     }
 
+                    String lecturerName = lecDoc.getString("name");
                     String DocID = Integer.toString(maxid);
 
                     DocumentReference newVac = FStore.collection("Vacancy").document(DocID);
@@ -224,10 +230,29 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                     dataVals.put("type",position);
                     dataVals.put("created_by",UserIDStatic.getInstance().getUserId());
                     dataVals.put("docId",maxid);
-                    dataVals.put("lecturer",lecDoc.getString("name"));
+                    dataVals.put("lecturer",lecturerName);
+
+                new Thread(() -> {
+                    Query allDevices = FStore.collection("Device_Token").whereNotEqualTo("token", UserIDStatic.getInstance().getToken());
+
+                    allDevices.get().addOnCompleteListener(task1 -> {
+                        if(task1.isSuccessful())
+                        {
+                            QuerySnapshot devices = task1.getResult();
+                            if(!devices.isEmpty())
+                            {
+                                for(QueryDocumentSnapshot queryDocumentSnapshot : devices)
+                                {
+                                    SendPushNotification.pushNotification(CreateVacancyLecturer.this,queryDocumentSnapshot.getString("token"),"New Vacancy",lecturerName+" created a vacancy. Check it out...");
+                                }
+                            }
+                        }
+                    });
+                }).start();
 
                     newVac.set(dataVals).addOnSuccessListener(unused -> {
                         progressDialog.dismiss();
+
                         runOnUiThread(() -> {
                             Toast.makeText(this, "Vacancy has been created", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(CreateVacancyLecturer.this, VacancyBoardLecturer.class);

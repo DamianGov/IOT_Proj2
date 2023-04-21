@@ -1,5 +1,6 @@
 package com.example.iot_proj2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,12 +20,16 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.Blob;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,11 +41,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -77,9 +85,41 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FStore = FirebaseFirestore.getInstance();
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String token = task.getResult();
+                        UserIDStatic.getInstance().setToken(token);
+                        Query tokenExists = FStore.collection("Device_Token").whereEqualTo("token",token).limit(1);
+
+                        tokenExists.get().addOnCompleteListener(task1 -> {
+                            if(task1.isSuccessful())
+                            {
+                                QuerySnapshot tokenSnapshot = task1.getResult();
+
+                                if(tokenSnapshot.isEmpty())
+                                {
+
+                                    String ID = UUID.randomUUID().toString();
+
+                                    DocumentReference documentReference = FStore.collection("Device_Token").document(ID);
+                                    Map<String, Object> data = new HashMap<>();
+                                    data.put("token",token);
+
+                                    documentReference.set(data);
+                                }
+
+                            }
+                        });
+                    }
+
+                });
+
         ButterKnife.bind(this);
 
-        FStore = FirebaseFirestore.getInstance();
+
 
 
         btnLogin.setOnClickListener(view -> {
