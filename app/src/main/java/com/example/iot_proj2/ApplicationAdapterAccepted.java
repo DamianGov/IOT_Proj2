@@ -15,32 +15,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.files.DownloadBuilder;
 import com.dropbox.core.v2.files.DownloadErrorException;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ApplicationAdapterAccepted extends RecyclerView.Adapter<ApplicationAdapterAccepted.ApplicationViewHolder> {
-    private List<Application> applicationList;
+    private final List<Application> applicationList;
 
-    private Context context;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Context context;
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
 
     public ApplicationAdapterAccepted(List<Application> applicationList, Context context) {
@@ -119,8 +111,8 @@ public class ApplicationAdapterAccepted extends RecyclerView.Adapter<Application
             holder.applicationDescrip.setText(application.getDescription());
             holder.applicationType.setText(application.getType());
 
-            holder.applicationSemester.setText("Semester "+application.getSemester());
-            holder.applicationSalary.setText(application.getSalary()+" per/hour");
+            holder.applicationSemester.setText("Semester " + application.getSemester());
+            holder.applicationSalary.setText(application.getSalary() + " per/hour");
 
 
             holder.downloadResume.setOnClickListener(view -> {

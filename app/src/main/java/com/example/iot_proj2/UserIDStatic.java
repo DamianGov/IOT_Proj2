@@ -5,32 +5,32 @@ public class UserIDStatic {
     private String userId, token;
 
 
-    private UserIDStatic()
-    {
+    private UserIDStatic() {
 
     }
 
-    public static UserIDStatic getInstance()
-    {
-        if (instance == null)
-        {
+    public static UserIDStatic getInstance() {
+        if (instance == null) {
             instance = new UserIDStatic();
         }
         return instance;
     }
 
-    public void setUserId(String userId)
-    {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
-    public void setToken(String token) {this.token = token;}
 
-    public String getUserId()
-    {
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getUserId() {
         return userId;
     }
-    public String getToken() {return token;}
 
+    public String getToken() {
+        return token;
+    }
 
 
 }

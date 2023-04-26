@@ -1,54 +1,34 @@
 package com.example.iot_proj2;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.security.identity.MessageDecryptionException;
 import android.text.TextUtils;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.Blob;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import org.mindrot.jbcrypt.BCrypt;
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -87,39 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
         FStore = FirebaseFirestore.getInstance();
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String token = task.getResult();
-                        UserIDStatic.getInstance().setToken(token);
-                        Query tokenExists = FStore.collection("Device_Token").whereEqualTo("token",token).limit(1);
-
-                        tokenExists.get().addOnCompleteListener(task1 -> {
-                            if(task1.isSuccessful())
-                            {
-                                QuerySnapshot tokenSnapshot = task1.getResult();
-
-                                if(tokenSnapshot.isEmpty())
-                                {
-
-                                    String ID = UUID.randomUUID().toString();
-
-                                    DocumentReference documentReference = FStore.collection("Device_Token").document(ID);
-                                    Map<String, Object> data = new HashMap<>();
-                                    data.put("token",token);
-
-                                    documentReference.set(data);
-                                }
-
-                            }
-                        });
-                    }
-
-                });
 
         ButterKnife.bind(this);
-
-
 
 
         btnLogin.setOnClickListener(view -> {
@@ -132,38 +81,60 @@ public class MainActivity extends AppCompatActivity {
             String UserNumber = edtUserNumber.getText().toString();
             String Password = edtPassword.getText().toString();
 
-            if(TextUtils.isEmpty(UserNumber))
-            {
+            if (TextUtils.isEmpty(UserNumber)) {
                 edtUserNumber.setError("Enter your User Number");
                 return;
             }
 
-            if(!TextUtils.isDigitsOnly(UserNumber))
-            {
+            if (!TextUtils.isDigitsOnly(UserNumber)) {
                 edtUserNumber.setError("Invalid User Number");
                 return;
             }
-            if(TextUtils.isEmpty(Password))
-            {
+            if (TextUtils.isEmpty(Password)) {
                 edtPassword.setError("Enter your Password");
                 return;
             }
 
-            if(Password.length() < 6)
-            {
+            if (Password.length() < 6) {
                 edtPassword.setError("Password is too short. The Password must be more than 6 characters");
                 return;
             }
 
-            if(Password.length() > 20)
-            {
+            if (Password.length() > 20) {
                 edtPassword.setError("Password is too long. The Password must be less than 20 characters");
                 return;
             }
 
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String token = task.getResult();
+                            UserIDStatic.getInstance().setToken(token);
+                            Query tokenExists = FStore.collection("Device_Token").whereEqualTo("token", token).limit(1);
+
+                            tokenExists.get().addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    QuerySnapshot tokenSnapshot = task1.getResult();
+
+                                    if (tokenSnapshot.isEmpty()) {
+
+                                        String ID = UUID.randomUUID().toString();
+
+                                        DocumentReference documentReference = FStore.collection("Device_Token").document(ID);
+                                        Map<String, Object> data = new HashMap<>();
+                                        data.put("token", token);
+
+                                        documentReference.set(data);
+                                    }
+
+                                }
+                            });
+                        }
+
+                    });
+
             // Handle Admin Details
-            if(UserNumber.equals("0000000013") && Password.equals("AdminUser@99"))
-            {
+            if (UserNumber.equals("0000000013") && Password.equals("AdminUser@99")) {
                 Toast.makeText(this, "Welcome, Admin", Toast.LENGTH_SHORT).show();
                 openAdmin();
                 return;
@@ -173,16 +144,12 @@ public class MainActivity extends AppCompatActivity {
 
             String finalUserType = UserType;
             userDoc.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     DocumentSnapshot userSnap = task.getResult();
-                    if(userSnap.exists())
-                    {
-                        if(checkPassword(Password, userSnap.getString("password")))
-                        {
+                    if (userSnap.exists()) {
+                        if (checkPassword(Password, userSnap.getString("password"))) {
 
-                            if (userSnap.getBoolean("restrict"))
-                            {
+                            if (userSnap.getBoolean("restrict")) {
                                 Toast.makeText(this, "Your account is restricted, please contact the Administrator.", Toast.LENGTH_LONG).show();
                                 return;
                             }
@@ -191,12 +158,11 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
-                            if(finalUserType == "Student")
+                            if (finalUserType == "Student")
                                 openVacancyStud();
                             else
                                 openVacancyLect();
-                        }
-                        else{
+                        } else {
                             Toast.makeText(MainActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -209,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
             });
-
 
 
         });
@@ -229,8 +194,7 @@ public class MainActivity extends AppCompatActivity {
             String finalUserType = UserType;
             passResetDialog.setPositiveButton("Send Password Reset Link", (dialogInterface, i) -> {
                 String resEmail = emailField.getText().toString().trim();
-                if(TextUtils.isEmpty(resEmail))
-                {
+                if (TextUtils.isEmpty(resEmail)) {
                     Toast.makeText(this, "Please enter your Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -242,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.setTitle("");
                 progressDialog.setMessage("Please wait...");
 
-                if(finalUserType == "Student") {
+                if (finalUserType == "Student") {
                     Query queryStudent = FStore.collection("Student").whereEqualTo("email", resEmail).limit(1);
                     queryStudent.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -263,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                                                     "Hello, " + name + ".\n\nTo reset your password please go to http://iotproj1.pythonanywhere.com/reset-pass/" + secretTok + "\n\nThank you.\nKind regards,\nVacancy Team.", "The reset link has been sent", "Unable to send link", progressDialog).execute();
                                             return;
                                         });
-                            }else {
+                            } else {
 
                                 Toast.makeText(this, "Email does not exist", Toast.LENGTH_SHORT).show();
                                 return;
@@ -274,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
 
-                if(finalUserType == "Lecturer") {
+                if (finalUserType == "Lecturer") {
                     Query queryLect = FStore.collection("Lecturer").whereEqualTo("email", resEmail).limit(1);
                     queryLect.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -295,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                                                     "Hello, " + name + ".\n\nTo reset your password please go to http://iotproj1.pythonanywhere.com/reset-pass/" + secretTok + "\n\nThank you.\nKind regards,\nVacancy Team.", "The reset link has been sent", "Unable to send link", progressDialog).execute();
                                             return;
                                         });
-                            }else{
+                            } else {
                                 Toast.makeText(this, "Email does not exist", Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -303,7 +267,6 @@ public class MainActivity extends AppCompatActivity {
 
                     });
                 }
-
 
 
             });
@@ -330,47 +293,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void openVacancyStud()
-    {
+    public void openVacancyStud() {
         Intent intent = new Intent(this, VacancyBoardStudent.class);
         startActivity(intent);
     }
 
-    public void openVacancyLect()
-    {
+    public void openVacancyLect() {
         Intent intent = new Intent(this, VacancyBoardLecturer.class);
         startActivity(intent);
     }
 
-    public void openHelp()
-    {
+    public void openHelp() {
         Intent intent = new Intent(this, Help.class);
         startActivity(intent);
     }
 
-    public void openSignUpStudent()
-    {
+    public void openSignUpStudent() {
         Intent intent = new Intent(this, SignUpStudent.class);
         startActivity(intent);
     }
 
-    public void openSignUpLect()
-    {
+    public void openSignUpLect() {
         Intent intent = new Intent(this, SignUpLecturer.class);
         startActivity(intent);
     }
 
-    public void openAdmin()
-    {
+    public void openAdmin() {
         Intent intent = new Intent(this, AdminZone.class);
         startActivity(intent);
     }
 
 
-
-    public static boolean checkPassword(String password, String hashedPassword)
-    {
+    public static boolean checkPassword(String password, String hashedPassword) {
         String hashedPasswordToCheck = StaticStrings.hashPassword(password);
         return hashedPassword.equals(hashedPasswordToCheck);
     }
@@ -385,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                     finishAffinity();
                     System.exit(0);
                 })
-                .setNegativeButton("No",null)
+                .setNegativeButton("No", null)
                 .show();
     }
 }

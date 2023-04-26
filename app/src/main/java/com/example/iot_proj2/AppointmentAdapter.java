@@ -14,9 +14,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -39,25 +36,23 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder>{
+public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
 
-    private List<Appointment> appointmentList;
+    private final List<Appointment> appointmentList;
 
-    private Context context;
+    private final Context context;
 
     public AppointmentAdapter(List<Appointment> appointmentList, Context context) {
         this.appointmentList = appointmentList;
         this.context = context;
     }
 
-    public static class AppointmentViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class AppointmentViewHolder extends RecyclerView.ViewHolder {
         TextView appointmentTitle, appointmentTime, appointmentStatus, appointmentDate, tvEmpty, appointmentReason;
         ImageView approveButton, cancelButton;
         View separator;
 
-        public AppointmentViewHolder(View itemView)
-        {
+        public AppointmentViewHolder(View itemView) {
             super(itemView);
             appointmentTitle = itemView.findViewById(R.id.appointmentTitleTextView);
             appointmentTime = itemView.findViewById(R.id.appointmentTimeTextView);
@@ -71,6 +66,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         }
 
     }
+
     @NonNull
     @Override
     public AppointmentAdapter.AppointmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -80,8 +76,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AppointmentAdapter.AppointmentViewHolder holder, int position) {
-        if(appointmentList.isEmpty())
-        {
+        if (appointmentList.isEmpty()) {
             holder.appointmentTitle.setVisibility(View.GONE);
             holder.appointmentTime.setVisibility(View.GONE);
             holder.appointmentStatus.setVisibility(View.GONE);
@@ -105,7 +100,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
             Appointment appointment = appointmentList.get(position);
 
-            holder.appointmentTitle.setText("Appointment with "+appointment.getStudentName()+"("+appointment.getStud_num()+")");
+            holder.appointmentTitle.setText("Appointment with " + appointment.getStudentName() + "(" + appointment.getStud_num() + ")");
 
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
@@ -126,27 +121,27 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
             String status = appointment.getStatus();
 
-            holder.appointmentStatus.setText(UCharacter.toTitleCase(Locale.UK,status,null,0));
+            holder.appointmentStatus.setText(UCharacter.toTitleCase(Locale.UK, status, null, 0));
 
-            switch (status)
-            {
-                case "cancelled":holder.appointmentStatus.setTextColor(ContextCompat.getColor(context,R.color.Cancelled));
+            switch (status) {
+                case "cancelled":
+                    holder.appointmentStatus.setTextColor(ContextCompat.getColor(context, R.color.Cancelled));
                     break;
-                case "pending" : holder.appointmentStatus.setTextColor(ContextCompat.getColor(context,R.color.Pending));
+                case "pending":
+                    holder.appointmentStatus.setTextColor(ContextCompat.getColor(context, R.color.Pending));
                     break;
-                case "approved" : holder.appointmentStatus.setTextColor(ContextCompat.getColor(context,R.color.Approved));
+                case "approved":
+                    holder.appointmentStatus.setTextColor(ContextCompat.getColor(context, R.color.Approved));
                     break;
             }
 
-            if ("pending".equals(appointment.getStatus()))
-            {
+            if ("pending".equals(appointment.getStatus())) {
                 holder.approveButton.setVisibility(View.VISIBLE);
             } else {
                 holder.approveButton.setVisibility(View.GONE);
             }
 
-            if("approved".equals(appointment.getStatus()) || "pending".equals(appointment.getStatus()))
-            {
+            if ("approved".equals(appointment.getStatus()) || "pending".equals(appointment.getStatus())) {
                 holder.cancelButton.setVisibility(View.VISIBLE);
             } else {
                 holder.cancelButton.setVisibility(View.GONE);
@@ -161,36 +156,31 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                             FStore = FirebaseFirestore.getInstance();
 
                             // Update Appointment
-                            FStore.collection("Appointment").document(Long.toString(appointment.getDocId())).update("status","approved").addOnSuccessListener(unused -> {
+                            FStore.collection("Appointment").document(Long.toString(appointment.getDocId())).update("status", "approved").addOnSuccessListener(unused -> {
 
-                                new Thread(() -> SendEmail(appointment.getStudentEmail(),"Vacancy Portal - Appointment Approved","Hello, "+appointment.getStudentName()+".\n\nYour appointment with "+appointment.getLecturerName()+" scheduled for "+appointment.getStart_time()+" has been approved.\nPlease take note of the Date and Time of your appointment.\n\nThe venue for your appointment is in the lecturer's office.\nPlease locate the relevant faculty the lecturer belongs to.\n\nThank you.\nKind regards,\nVacancy Team.")).start();
+                                new Thread(() -> SendEmail(appointment.getStudentEmail(), "Vacancy Portal - Appointment Approved", "Hello, " + appointment.getStudentName() + ".\n\nYour appointment with " + appointment.getLecturerName() + " scheduled for " + appointment.getStart_time() + " has been approved.\nPlease take note of the Date and Time of your appointment.\n\nThe venue for your appointment is in the lecturer's office.\nPlease locate the relevant faculty the lecturer belongs to.\n\nThank you.\nKind regards,\nVacancy Team.")).start();
 
                                 appointment.setStatus("approved");
                                 Toast.makeText(context, "Appointment has been approved", Toast.LENGTH_SHORT).show();
-                                notifyDataSetChanged();;
+                                notifyDataSetChanged();
                             });
 
-                            Query queryAllOtherAppointment = FStore.collection("Appointment").whereEqualTo("staff_num",UserIDStatic.getInstance().getUserId()).whereEqualTo("start_time",appointment.getStart_time()).whereNotEqualTo("stud_num",appointment.getStud_num());
+                            Query queryAllOtherAppointment = FStore.collection("Appointment").whereEqualTo("staff_num", UserIDStatic.getInstance().getUserId()).whereEqualTo("start_time", appointment.getStart_time()).whereNotEqualTo("stud_num", appointment.getStud_num());
                             queryAllOtherAppointment.get().addOnCompleteListener(task -> {
-                                if(task.isSuccessful())
-                                {
+                                if (task.isSuccessful()) {
                                     QuerySnapshot otherAppoint = task.getResult();
-                                    if(otherAppoint != null)
-                                    {
+                                    if (otherAppoint != null) {
                                         List<DocumentSnapshot> documentSnapshots = otherAppoint.getDocuments();
 
-                                        for(DocumentSnapshot documentSnapshot : documentSnapshots)
-                                        {
-                                            for(int x = 0; x < appointmentList.size(); x++)
-                                            {
+                                        for (DocumentSnapshot documentSnapshot : documentSnapshots) {
+                                            for (int x = 0; x < appointmentList.size(); x++) {
                                                 Appointment appLoop = appointmentList.get(x);
-                                                if(appLoop.getStud_num().equals(documentSnapshot.getString("stud_num")) && "pending".equals(documentSnapshot.getString("status")))
-                                                {
+                                                if (appLoop.getStud_num().equals(documentSnapshot.getString("stud_num")) && "pending".equals(documentSnapshot.getString("status"))) {
                                                     appointmentList.get(x).setStatus("cancelled");
 
                                                 }
                                             }
-                                            documentSnapshot.getReference().update("status","cancelled");
+                                            documentSnapshot.getReference().update("status", "cancelled");
                                         }
                                         notifyDataSetChanged();
                                     }
@@ -198,8 +188,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                             });
 
 
-
-                        }).setNegativeButton("No",null)
+                        }).setNegativeButton("No", null)
                         .show();
             });
 
@@ -214,8 +203,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                             FStore.collection("Appointment").document(Long.toString(appointment.getDocId())).update("status", "cancelled")
                                     .addOnSuccessListener(unused -> {
 
-                                        new Thread(() -> SendEmail(appointment.getStudentEmail(),"Vacancy Portal - Appointment Cancelled"
-                                                ,"Hello, "+appointment.getStudentName()+".\n\nUnfortunately your appointment with "+appointment.getLecturerName()+" scheduled for "+appointment.getStart_time()+" has been cancelled.\n\nThank you.\nKind regards,\nVacancy Team.")).start();
+                                        new Thread(() -> SendEmail(appointment.getStudentEmail(), "Vacancy Portal - Appointment Cancelled"
+                                                , "Hello, " + appointment.getStudentName() + ".\n\nUnfortunately your appointment with " + appointment.getLecturerName() + " scheduled for " + appointment.getStart_time() + " has been cancelled.\n\nThank you.\nKind regards,\nVacancy Team.")).start();
 
                                         appointment.setStatus("cancelled");
                                         Toast.makeText(context, "Appointment has been Cancelled", Toast.LENGTH_SHORT).show();
@@ -225,21 +214,22 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
 
                         })
-                        .setNegativeButton("No",null)
+                        .setNegativeButton("No", null)
                         .show();
             });
         }
     }
+
     @Override
-    public int getItemCount () {
+    public int getItemCount() {
         if (appointmentList.isEmpty()) {
             return 1;
         } else {
             return appointmentList.size();
         }
     }
-    private void SendEmail(String email, String subject, String body)
-    {
+
+    private void SendEmail(String email, String subject, String body) {
         String username = "iotgrp2023@gmail.com";
         String password = "qdqxulmrnbfkrqvg";
 

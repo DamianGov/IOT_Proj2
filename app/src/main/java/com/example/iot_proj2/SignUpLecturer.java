@@ -1,27 +1,20 @@
 package com.example.iot_proj2;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
@@ -74,7 +67,8 @@ public class SignUpLecturer extends AppCompatActivity {
     private FirebaseFirestore FStore;
     private CustomSpinnerAdapter tempModAdap = null;
 
-    private HashSet<String> selectedItems = new HashSet<>();
+    private final HashSet<String> selectedItems = new HashSet<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +95,6 @@ public class SignUpLecturer extends AppCompatActivity {
         CustomSpinnerAdapter ModAdapter = new CustomSpinnerAdapter(this, Arrays.asList(new String[]{}));
         Modules.setAdapter(ModAdapter);
         Modules.setPrompt("Modules");
-
 
 
         Faculty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -150,51 +143,43 @@ public class SignUpLecturer extends AppCompatActivity {
             String department = Department.getSelectedItem().toString();
             List<String> selectedModules = tempModAdap.getSelectedItems();
 
-            if(TextUtils.isEmpty(name))
-            {
+            if (TextUtils.isEmpty(name)) {
                 Name.setError("Please enter your Name");
                 return;
             }
 
-            if(TextUtils.isEmpty(number))
-            {
+            if (TextUtils.isEmpty(number)) {
                 Number.setError("Please enter your Staff Number");
                 return;
             }
 
-            if(number.length() < 8 || number.length() > 10)
-            {
+            if (number.length() < 8 || number.length() > 10) {
                 Number.setError("Your Staff Number must be 8 to 10 digits");
                 return;
             }
 
 
-            if(TextUtils.isEmpty(email))
-            {
+            if (TextUtils.isEmpty(email)) {
                 LecEmail.setError("Please enter your Email");
                 return;
             }
 
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
-            {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 LecEmail.setError("Invalid Email");
                 return;
             }
 
-            if(password.length() < 6 || password.length() > 20)
-            {
+            if (password.length() < 6 || password.length() > 20) {
                 Pass.setError("Your Password must be 6 to 20 characters long");
                 return;
             }
 
-            if(!password.equals(confPass))
-            {
+            if (!password.equals(confPass)) {
                 ConfirmPass.setError("The Password and Confirm Password do not match");
                 return;
             }
 
-            if (selectedModules == null || selectedModules.isEmpty())
-            {
+            if (selectedModules == null || selectedModules.isEmpty()) {
                 Toast.makeText(this, "Please select a Module", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -207,7 +192,7 @@ public class SignUpLecturer extends AppCompatActivity {
 
             // Checks
             DocumentReference docLec = FStore.collection("Lecturer").document(number);
-            Query query = FStore.collection("Lecturer").whereEqualTo("email",email);
+            Query query = FStore.collection("Lecturer").whereEqualTo("email", email);
 
             Task<DocumentSnapshot> docLecTask = docLec.get();
             Task<QuerySnapshot> queryTask = query.get();
@@ -222,37 +207,36 @@ public class SignUpLecturer extends AppCompatActivity {
                     return;
                 }
 
-                if(!querySnapshot.isEmpty())
-                {
+                if (!querySnapshot.isEmpty()) {
                     LecEmail.setError("Email already exists");
                     progressDialog.dismiss();
                     return;
                 }
 
-                String sepModules = TextUtils.join(",",selectedModules);
+                String sepModules = TextUtils.join(",", selectedModules);
 
                 DocumentReference lecturerDoc = FStore.collection("Lecturer").document(number);
 
                 String hashPassword = StaticStrings.hashPassword(password);
                 Map<String, Object> data = new HashMap<>();
-                data.put("email",email);
-                data.put("faculty",faculty);
-                data.put("department",department);
-                data.put("name",name);
-                data.put("module",sepModules);
-                data.put("password",hashPassword);
-                data.put("pass_token","");
-                data.put("restrict",false);
+                data.put("email", email);
+                data.put("faculty", faculty);
+                data.put("department", department);
+                data.put("name", name);
+                data.put("module", sepModules);
+                data.put("password", hashPassword);
+                data.put("pass_token", "");
+                data.put("restrict", false);
 
                 lecturerDoc.set(data).addOnSuccessListener(unused -> {
-                            new Email(this,email,"Welcome to DUT Vacancy Portal","Welcome to DUT Vacancy Portal, "+name+".\n\nYour account has been successfully created with us.\n\nThank you.\nKind regards,\nVacancy Team.","Your account has been created","Account Created, but error in sending email",progressDialog).execute();
+                            new Email(this, email, "Welcome to DUT Vacancy Portal", "Welcome to DUT Vacancy Portal, " + name + ".\n\nYour account has been successfully created with us.\n\nThank you.\nKind regards,\nVacancy Team.", "Your account has been created", "Account Created, but error in sending email", progressDialog).execute();
                             progressDialog.setOnDismissListener(dialogInterface -> {
                                 Intent intent = new Intent(SignUpLecturer.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             });
                         })
-                        .addOnFailureListener(e -> new Thread(()->{
+                        .addOnFailureListener(e -> new Thread(() -> {
                             progressDialog.dismiss();
                             runOnUiThread(() -> Toast.makeText(this, "Error: Unable to create your account", Toast.LENGTH_SHORT).show());
                             return;
@@ -260,16 +244,12 @@ public class SignUpLecturer extends AppCompatActivity {
             });
 
 
-
-
-
-
         });
 
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

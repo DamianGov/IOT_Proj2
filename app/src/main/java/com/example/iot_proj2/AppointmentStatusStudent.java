@@ -1,19 +1,16 @@
 package com.example.iot_proj2;
 
-import androidx.annotation.NonNull;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.navigation.NavigationView;
@@ -27,7 +24,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,36 +64,34 @@ public class AppointmentStatusStudent extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            switch (id)
-            {
+            switch (id) {
                 case R.id.mStudentProfile: {
                     Intent intent = new Intent(this, ProfileStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentApplicationStatus:
-                {
+                case R.id.mStudentApplicationStatus: {
                     Intent intent = new Intent(this, ApplicationStatusStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentCreateAppointment:{
+                case R.id.mStudentCreateAppointment: {
                     Intent intent = new Intent(this, CreateAppointmentStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentUpdateResume:{
+                case R.id.mStudentUpdateResume: {
                     Intent intent = new Intent(this, ResumeStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentVacancyBoard:{
+                case R.id.mStudentVacancyBoard: {
                     Intent intent = new Intent(this, VacancyBoardStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLogOut:{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                case R.id.mLogOut: {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -117,7 +111,7 @@ public class AppointmentStatusStudent extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        Query query = FStore.collection("Appointment").whereEqualTo("stud_num",UserIDStatic.getInstance().getUserId()).orderBy("docId",Query.Direction.DESCENDING);;
+        Query query = FStore.collection("Appointment").whereEqualTo("stud_num", UserIDStatic.getInstance().getUserId()).orderBy("docId", Query.Direction.DESCENDING);
         DocumentReference studentDetails = FStore.collection("Student").document(UserIDStatic.getInstance().getUserId());
 
         Task<QuerySnapshot> getAppointments = query.get();
@@ -136,17 +130,15 @@ public class AppointmentStatusStudent extends AppCompatActivity {
 
             List<Appointment> appointmentList = new ArrayList<>();
 
-            if (!StudAppointments.isEmpty() && StudAppointments != null)
-            {
+            if (!StudAppointments.isEmpty() && StudAppointments != null) {
                 List<Task<DocumentSnapshot>> taskGetLecturer = new ArrayList<>();
 
                 for (DocumentSnapshot documentSnapshot : StudAppointments.getDocuments()) {
                     Appointment appointment = documentSnapshot.toObject(Appointment.class);
 
                     try {
-                        LocalDate givenDate  = LocalDate.parse(appointment.getStart_time(),givenFormat);
-                        if(givenDate.isAfter(currentDate))
-                        {
+                        LocalDate givenDate = LocalDate.parse(appointment.getStart_time(), givenFormat);
+                        if (givenDate.isAfter(currentDate)) {
                             appointment.setStudentEmail(studEmail);
                             appointment.setStudentName(studName);
 
@@ -156,8 +148,7 @@ public class AppointmentStatusStudent extends AppCompatActivity {
 
                             appointmentList.add(appointment);
                         }
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         appointment.setStudentEmail(studEmail);
                         appointment.setStudentName(studName);
 
@@ -172,12 +163,11 @@ public class AppointmentStatusStudent extends AppCompatActivity {
                 }
 
                 Tasks.whenAllSuccess(taskGetLecturer.toArray(new Task[taskGetLecturer.size()])).addOnSuccessListener(objects1 -> {
-                    for(int i = 0; i < taskGetLecturer.size(); i++)
-                    {
+                    for (int i = 0; i < taskGetLecturer.size(); i++) {
                         DocumentSnapshot lecDetails = taskGetLecturer.get(i).getResult();
-                            Appointment appointment = appointmentList.get(i);
-                            appointment.setLecturerEmail(lecDetails.getString("email"));
-                            appointment.setLecturerName(lecDetails.getString("name"));
+                        Appointment appointment = appointmentList.get(i);
+                        appointment.setLecturerEmail(lecDetails.getString("email"));
+                        appointment.setLecturerName(lecDetails.getString("name"));
 
                     }
 
@@ -190,8 +180,8 @@ public class AppointmentStatusStudent extends AppCompatActivity {
 
 
     }
-    private void setAdapter(List<Appointment> appointmentList, ProgressDialog p)
-    {
+
+    private void setAdapter(List<Appointment> appointmentList, ProgressDialog p) {
         p.dismiss();
         AppointmentAdapterStudent appointmentAdapterStudent = new AppointmentAdapterStudent(appointmentList, this);
         StudAppointments.setAdapter(appointmentAdapterStudent);
@@ -199,9 +189,9 @@ public class AppointmentStatusStudent extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(AppointmentStatusStudent.this);
         StudAppointments.setLayoutManager(layoutManager);
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

@@ -2,11 +2,6 @@ package com.example.iot_proj2;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +11,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -55,17 +54,15 @@ public class StudentFragment extends Fragment {
             StudentRestrict = new ArrayList<>();
             StudentConcat = new ArrayList<>();
 
-            if(task.isSuccessful())
-            {
-                for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult())
-                {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
                     StudentName.add(queryDocumentSnapshot.getString("name"));
                     StudentNum.add(queryDocumentSnapshot.getId());
                     StudentRestrict.add(queryDocumentSnapshot.getBoolean("restrict"));
-                    StudentConcat.add(queryDocumentSnapshot.getString("name")+" ("+queryDocumentSnapshot.getId()+")");
+                    StudentConcat.add(queryDocumentSnapshot.getString("name") + " (" + queryDocumentSnapshot.getId() + ")");
                 }
 
-                adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item,StudentConcat);
+                adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, StudentConcat);
                 StudentSpn.setAdapter(adapter);
 
 
@@ -79,16 +76,15 @@ public class StudentFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 GradientDrawable gradientDrawable = new GradientDrawable();
                 gradientDrawable.setCornerRadius(12);
-                if(StudentRestrict.get(i)){
-                    gradientDrawable.setColor(ContextCompat.getColor(requireContext(),R.color.Approved));
+                if (StudentRestrict.get(i)) {
+                    gradientDrawable.setColor(ContextCompat.getColor(requireContext(), R.color.Approved));
                     StudentStatus.setText(StudentName.get(i) + " is Restricted");
-                    StudentStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.Cancelled));
+                    StudentStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.Cancelled));
                     RestrictBtn.setText("Unrestrict");
-                }
-                else {
-                    gradientDrawable.setColor(ContextCompat.getColor(requireContext(),R.color.Cancelled));
+                } else {
+                    gradientDrawable.setColor(ContextCompat.getColor(requireContext(), R.color.Cancelled));
                     StudentStatus.setText(StudentName.get(i) + " is not restricted");
-                    StudentStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.Approved));
+                    StudentStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.Approved));
                     RestrictBtn.setText("Restrict");
                 }
                 RestrictBtn.setBackgroundDrawable(gradientDrawable);
@@ -103,37 +99,35 @@ public class StudentFragment extends Fragment {
         RestrictBtn.setOnClickListener(view1 -> {
             int Position = StudentSpn.getSelectedItemPosition();
 
-            if(StudentRestrict.get(Position))
-            {
+            if (StudentRestrict.get(Position)) {
                 new AlertDialog.Builder(requireContext())
-                        .setMessage("Are you sure you want to unrestrict "+StudentName.get(Position)+"?")
+                        .setMessage("Are you sure you want to unrestrict " + StudentName.get(Position) + "?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", (dialogInterface, i) -> {
-                            FStore.collection("Student").document(StudentNum.get(Position)).update("restrict",false).
+                            FStore.collection("Student").document(StudentNum.get(Position)).update("restrict", false).
                                     addOnSuccessListener(unused -> {
-                                        Toast.makeText(requireContext(), StudentName.get(Position)+" has been unrestricted", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireContext(), StudentName.get(Position) + " has been unrestricted", Toast.LENGTH_SHORT).show();
                                         StudentRestrict.set(Position, false);
                                         adapter.notifyDataSetChanged();
                                         StudentSpn.setAdapter(adapter);
                                         StudentSpn.setSelection(Position);
                                     });
-                        }).setNegativeButton("No",null)
+                        }).setNegativeButton("No", null)
                         .show();
-            }
-            else {
+            } else {
                 new AlertDialog.Builder(requireContext())
-                        .setMessage("Are you sure you want to restrict "+StudentName.get(Position)+"?")
+                        .setMessage("Are you sure you want to restrict " + StudentName.get(Position) + "?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", (dialogInterface, i) -> {
-                            FStore.collection("Student").document(StudentNum.get(Position)).update("restrict",true).
+                            FStore.collection("Student").document(StudentNum.get(Position)).update("restrict", true).
                                     addOnSuccessListener(unused -> {
-                                        Toast.makeText(requireContext(), StudentName.get(Position)+" has been restricted", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireContext(), StudentName.get(Position) + " has been restricted", Toast.LENGTH_SHORT).show();
                                         StudentRestrict.set(Position, true);
                                         adapter.notifyDataSetChanged();
                                         StudentSpn.setAdapter(adapter);
                                         StudentSpn.setSelection(Position);
                                     });
-                        }).setNegativeButton("No",null)
+                        }).setNegativeButton("No", null)
                         .show();
             }
 

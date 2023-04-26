@@ -1,43 +1,36 @@
 package com.example.iot_proj2;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.view.Menu;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.files.DownloadBuilder;
 import com.dropbox.core.v2.files.DownloadErrorException;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.WriteMode;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,36 +75,34 @@ public class ResumeStudent extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            switch (id)
-            {
+            switch (id) {
                 case R.id.mStudentProfile: {
                     Intent intent = new Intent(this, ProfileStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentApplicationStatus:
-                {
+                case R.id.mStudentApplicationStatus: {
                     Intent intent = new Intent(this, ApplicationStatusStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentAppointmentStatus:{
+                case R.id.mStudentAppointmentStatus: {
                     Intent intent = new Intent(this, AppointmentStatusStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentCreateAppointment:{
+                case R.id.mStudentCreateAppointment: {
                     Intent intent = new Intent(this, CreateAppointmentStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentVacancyBoard:{
+                case R.id.mStudentVacancyBoard: {
                     Intent intent = new Intent(this, VacancyBoardStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLogOut:{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                case R.id.mLogOut: {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -126,10 +117,10 @@ public class ResumeStudent extends AppCompatActivity {
         Download.setOnClickListener(view -> {
             DropboxInit dropboxInit = new DropboxInit();
 
-            String fileOnDrpbx = "/"+UserIDStatic.getInstance().getUserId()+"/"+UserIDStatic.getInstance().getUserId()+".pdf";
+            String fileOnDrpbx = "/" + UserIDStatic.getInstance().getUserId() + "/" + UserIDStatic.getInstance().getUserId() + ".pdf";
 
 
-            File saveLocally = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), UserIDStatic.getInstance().getUserId()+".pdf");
+            File saveLocally = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), UserIDStatic.getInstance().getUserId() + ".pdf");
 
 
             ProgressDialog progressDialog = new ProgressDialog(this);
@@ -146,7 +137,7 @@ public class ResumeStudent extends AppCompatActivity {
                     progressDialog.dismiss();
                     String auth = "com.example.iot_proj2.SPECIALAUTH";
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    Uri fileUri = FileProvider.getUriForFile(this, auth,saveLocally);
+                    Uri fileUri = FileProvider.getUriForFile(this, auth, saveLocally);
                     if (fileUri != null) {
                         intent.setDataAndType(fileUri, "application/pdf");
                         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -174,16 +165,14 @@ public class ResumeStudent extends AppCompatActivity {
             intent.setType("application/pdf");
             intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-            startActivityForResult(Intent.createChooser(intent,"Select Resume (PDF)"), 1);
+            startActivityForResult(Intent.createChooser(intent, "Select Resume (PDF)"), 1);
         });
 
         UpdateResume.setOnClickListener(view -> {
-            if (fileUriUpdate == null)
-            {
+            if (fileUriUpdate == null) {
                 Resume.setError("Please choose your Resume file");
                 return;
-            }
-            else
+            } else
                 Resume.setError(null);
 
             ProgressDialog progressDialog = new ProgressDialog(this);
@@ -192,7 +181,7 @@ public class ResumeStudent extends AppCompatActivity {
             progressDialog.setCancelable(false);
             progressDialog.show();
 
-            UploadFileToDrbx(fileUriUpdate, UserIDStatic.getInstance().getUserId(),progressDialog);
+            UploadFileToDrbx(fileUriUpdate, UserIDStatic.getInstance().getUserId(), progressDialog);
 
 
         });
@@ -201,16 +190,15 @@ public class ResumeStudent extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1 && resultCode == RESULT_OK)
-        {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             fileUriUpdate = data.getData();
             Resume.setText(getFileNameFromUri(fileUriUpdate));
         }
     }
+
     @SuppressLint("Range")
     private String getFileNameFromUri(Uri uri) {
         String fileName = null;
@@ -227,15 +215,14 @@ public class ResumeStudent extends AppCompatActivity {
         return fileName;
     }
 
-    public void UploadFileToDrbx(Uri fileUri,String studNum, ProgressDialog p)
-    {
+    public void UploadFileToDrbx(Uri fileUri, String studNum, ProgressDialog p) {
         DropboxInit dropboxInit = new DropboxInit();
         new Thread(() -> {
             try (InputStream inputStream = getContentResolver().openInputStream(fileUri)) {
 
                 String fileName = studNum + ".pdf";
 
-                FileMetadata metadata = dropboxInit.client.files().uploadBuilder("/"+ studNum +"/"+ fileName)
+                FileMetadata metadata = dropboxInit.client.files().uploadBuilder("/" + studNum + "/" + fileName)
                         .withMode(WriteMode.OVERWRITE)
                         .uploadAndFinish(inputStream);
 
@@ -253,8 +240,7 @@ public class ResumeStudent extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

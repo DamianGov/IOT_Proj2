@@ -1,6 +1,5 @@
 package com.example.iot_proj2;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,10 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.files.DownloadBuilder;
 import com.dropbox.core.v2.files.DownloadErrorException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,12 +46,13 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.ApplicationViewHolder>{
-    private List<Application> applicationList;
+public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.ApplicationViewHolder> {
+    private final List<Application> applicationList;
 
-    private Context context;
+    private final Context context;
 
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
+
     public ApplicationAdapter(List<Application> applicationList, Context context) {
         this.applicationList = applicationList;
         this.context = context;
@@ -69,7 +65,6 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         View seperator;
 
         ImageView downloadResume, acceptApp, declineApp;
-
 
 
         public ApplicationViewHolder(View itemView) {
@@ -134,8 +129,8 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
             holder.applicationDescrip.setText(application.getDescription());
             holder.applicationType.setText(application.getType());
 
-            holder.applicationSemester.setText("Semester "+application.getSemester());
-            holder.applicationSalary.setText(application.getSalary()+" per/hour");
+            holder.applicationSemester.setText("Semester " + application.getSemester());
+            holder.applicationSalary.setText(application.getSalary() + " per/hour");
 
             holder.downloadResume.setOnClickListener(view -> {
                 DropboxInit dropboxInit = new DropboxInit();
@@ -340,47 +335,46 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
 
                             });
                         }).setNegativeButton("No", null)
-                                    .show();
-                        });
-
-        }
-    }
-
-        @Override
-        public int getItemCount () {
-            if (applicationList.isEmpty()) {
-                return 1;
-            } else {
-                return applicationList.size();
-            }
-        }
-
-        private void SendEmail(String email, String subject, String body)
-        {
-            String username = "iotgrp2023@gmail.com";
-            String password = "qdqxulmrnbfkrqvg";
-
-            Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-
-            Session session = Session.getInstance(props, new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(username, password);
-                }
+                        .show();
             });
 
-            try {
-                Message messageObj = new MimeMessage(session);
-                messageObj.setFrom(new InternetAddress(username));
-                messageObj.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-                messageObj.setSubject(subject);
-                messageObj.setText(body);
-                Transport.send(messageObj);
-            } catch (MessagingException e) {
-
-            }
         }
     }
+
+    @Override
+    public int getItemCount() {
+        if (applicationList.isEmpty()) {
+            return 1;
+        } else {
+            return applicationList.size();
+        }
+    }
+
+    private void SendEmail(String email, String subject, String body) {
+        String username = "iotgrp2023@gmail.com";
+        String password = "qdqxulmrnbfkrqvg";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            Message messageObj = new MimeMessage(session);
+            messageObj.setFrom(new InternetAddress(username));
+            messageObj.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            messageObj.setSubject(subject);
+            messageObj.setText(body);
+            Transport.send(messageObj);
+        } catch (MessagingException e) {
+
+        }
+    }
+}

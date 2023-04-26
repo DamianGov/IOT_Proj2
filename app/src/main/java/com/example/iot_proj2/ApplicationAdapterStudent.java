@@ -14,22 +14,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dropbox.core.util.StringUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 import java.util.Locale;
 
-public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationAdapterStudent.ApplicationViewHolder>{
+public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationAdapterStudent.ApplicationViewHolder> {
 
-    private List<Application> applicationList;
+    private final List<Application> applicationList;
 
-    private Context context;
+    private final Context context;
 
 
     public ApplicationAdapterStudent(List<Application> applicationList, Context context) {
@@ -68,18 +62,17 @@ public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationA
 
     @Override
     public void onBindViewHolder(@NonNull ApplicationAdapterStudent.ApplicationViewHolder holder, int position) {
-        if(applicationList.isEmpty())
-       {
-           holder.applicationTitle.setVisibility(View.GONE);
+        if (applicationList.isEmpty()) {
+            holder.applicationTitle.setVisibility(View.GONE);
             holder.applicationPosition.setVisibility(View.GONE);
-           holder.applicationDescription.setVisibility(View.GONE);
-           holder.withdrawButton.setVisibility(View.GONE);
+            holder.applicationDescription.setVisibility(View.GONE);
+            holder.withdrawButton.setVisibility(View.GONE);
             holder.viewSeparator.setVisibility(View.GONE);
             holder.applicationStatus.setVisibility(View.GONE);
             holder.applicationLecturer.setVisibility(View.GONE);
             holder.applicationSemester.setVisibility(View.GONE);
             holder.applicationSalary.setVisibility(View.GONE);
-           holder.tvEmpty.setVisibility(View.VISIBLE);
+            holder.tvEmpty.setVisibility(View.VISIBLE);
             holder.tvEmpty.setText("No Applications");
         } else {
             holder.applicationTitle.setVisibility(View.VISIBLE);
@@ -96,71 +89,69 @@ public class ApplicationAdapterStudent extends RecyclerView.Adapter<ApplicationA
             Application application = applicationList.get(position);
 
 
-
             holder.applicationTitle.setText(application.getModule());
             holder.applicationPosition.setText(application.getType());
             holder.applicationDescription.setText(application.getDescription());
             holder.applicationLecturer.setText(application.getPersonName());
 
-            holder.applicationSemester.setText("Semester "+application.getSemester());
+            holder.applicationSemester.setText("Semester " + application.getSemester());
             holder.applicationSalary.setText(application.getSalary() + " per/hour");
 
 
             String status = application.getStatus();
-            holder.applicationStatus.setText(UCharacter.toTitleCase(Locale.UK,status,null,0));
-            switch (status)
-            {
-                case "pending": holder.applicationStatus.setTextColor(ContextCompat.getColor(context,R.color.Pending));
-                break;
-                case "vacancy withdrawn" :
-                case "withdrawn" :
-                     holder.applicationStatus.setTextColor(ContextCompat.getColor(context,R.color.Withdrawn));
-                break;
-                case "accepted": holder.applicationStatus.setTextColor(ContextCompat.getColor(context,R.color.Accepted));
-                break;
-                case "declined" : holder.applicationStatus.setTextColor(ContextCompat.getColor(context,R.color.Declined));
-                break;
+            holder.applicationStatus.setText(UCharacter.toTitleCase(Locale.UK, status, null, 0));
+            switch (status) {
+                case "pending":
+                    holder.applicationStatus.setTextColor(ContextCompat.getColor(context, R.color.Pending));
+                    break;
+                case "vacancy withdrawn":
+                case "withdrawn":
+                    holder.applicationStatus.setTextColor(ContextCompat.getColor(context, R.color.Withdrawn));
+                    break;
+                case "accepted":
+                    holder.applicationStatus.setTextColor(ContextCompat.getColor(context, R.color.Accepted));
+                    break;
+                case "declined":
+                    holder.applicationStatus.setTextColor(ContextCompat.getColor(context, R.color.Declined));
+                    break;
             }
 
-            if("pending".equals(application.getStatus()))
-            {
-                   holder.withdrawButton.setVisibility(View.VISIBLE);
-            }
-            else{
-                   holder.withdrawButton.setVisibility(View.GONE);
+            if ("pending".equals(application.getStatus())) {
+                holder.withdrawButton.setVisibility(View.VISIBLE);
+            } else {
+                holder.withdrawButton.setVisibility(View.GONE);
             }
 
-                    holder.withdrawButton.setOnClickListener(view -> {
-                        new AlertDialog.Builder(context)
-                                .setMessage("Are you sure you want to withdraw this application?")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", (dialogInterface, i) -> {
-                                    FirebaseFirestore FStore;
-                                    FStore = FirebaseFirestore.getInstance();
-                                    FStore.collection("Application").document(Long.toString(application.getDocId())).update("status", "withdrawn")
-                                            .addOnSuccessListener(unused -> {
-                                                application.setStatus("withdrawn");
-                                                Toast.makeText(context, "Application Withdrawn", Toast.LENGTH_SHORT).show();
-                                                notifyDataSetChanged();
-                                            }).addOnFailureListener(e -> {
-                                            });
+            holder.withdrawButton.setOnClickListener(view -> {
+                new AlertDialog.Builder(context)
+                        .setMessage("Are you sure you want to withdraw this application?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", (dialogInterface, i) -> {
+                            FirebaseFirestore FStore;
+                            FStore = FirebaseFirestore.getInstance();
+                            FStore.collection("Application").document(Long.toString(application.getDocId())).update("status", "withdrawn")
+                                    .addOnSuccessListener(unused -> {
+                                        application.setStatus("withdrawn");
+                                        Toast.makeText(context, "Application Withdrawn", Toast.LENGTH_SHORT).show();
+                                        notifyDataSetChanged();
+                                    }).addOnFailureListener(e -> {
+                                    });
 
 
-                                })
-                                .setNegativeButton("No",null)
-                                .show();
-                    });
-                }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            });
+        }
 
 
     }
 
     @Override
     public int getItemCount() {
-        if(applicationList.isEmpty())
-        {
+        if (applicationList.isEmpty()) {
             return 1;
-        }else {
+        } else {
             return applicationList.size();
         }
     }

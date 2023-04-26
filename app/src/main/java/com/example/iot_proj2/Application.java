@@ -97,13 +97,11 @@ public class Application {
     private String personName;
 
 
-    public Application()
-    {
+    public Application() {
 
     }
 
-    public Application(long docId, String status, String student_num, String vacancy_id)
-    {
+    public Application(long docId, String status, String student_num, String vacancy_id) {
         this.docId = docId;
         this.status = status;
         this.student_num = student_num;

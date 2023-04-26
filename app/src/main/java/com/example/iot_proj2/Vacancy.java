@@ -62,7 +62,6 @@ public class Vacancy {
     private String type;
 
 
-
     public String getLecturer() {
         return lecturer;
     }
@@ -91,13 +90,11 @@ public class Vacancy {
         this.semester = semester;
     }
 
-    public Vacancy()
-    {
+    public Vacancy() {
 
     }
 
-    public Vacancy(String created_by, String description, long docId, String module, String status, String type, String lecturer, String semester, String salary)
-    {
+    public Vacancy(String created_by, String description, long docId, String module, String status, String type, String lecturer, String semester, String salary) {
         this.created_by = created_by;
         this.description = description;
         this.docId = docId;

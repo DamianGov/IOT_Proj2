@@ -10,11 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,14 +20,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VacancyAdapterStudent extends RecyclerView.Adapter<VacancyAdapterStudent.VacancyViewHolderStudent>{
-    private List<Vacancy> vacancyList;
-    private Context context;
+public class VacancyAdapterStudent extends RecyclerView.Adapter<VacancyAdapterStudent.VacancyViewHolderStudent> {
+    private final List<Vacancy> vacancyList;
+    private final Context context;
 
     // Constructor
     public VacancyAdapterStudent(List<Vacancy> vacancyList, Context con) {
@@ -117,8 +113,8 @@ public class VacancyAdapterStudent extends RecyclerView.Adapter<VacancyAdapterSt
 
             holder.vacancyDescriptionTextView.setText(vacancy.getDescription());
 
-            holder.vacancySalaryTextView.setText(vacancy.getSalary()+" per/hour");
-            holder.vacancySemesterTextView.setText("Semester " +vacancy.getSemester());
+            holder.vacancySalaryTextView.setText(vacancy.getSalary() + " per/hour");
+            holder.vacancySemesterTextView.setText("Semester " + vacancy.getSemester());
 
 
             // Set click listener for the withdraw button
@@ -171,10 +167,9 @@ public class VacancyAdapterStudent extends RecyclerView.Adapter<VacancyAdapterSt
 
     @Override
     public int getItemCount() {
-        if(vacancyList.isEmpty())
-        {
+        if (vacancyList.isEmpty()) {
             return 1;
-        }else {
+        } else {
             return vacancyList.size();
         }
     }

@@ -16,9 +16,9 @@ import java.util.List;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
-    private Context context;
-    private List<String> items;
-    private boolean[] selectedItems;
+    private final Context context;
+    private final List<String> items;
+    private final boolean[] selectedItems;
 
     public CustomSpinnerAdapter(Context context, List<String> items) {
         super(context, android.R.layout.simple_spinner_item, items);

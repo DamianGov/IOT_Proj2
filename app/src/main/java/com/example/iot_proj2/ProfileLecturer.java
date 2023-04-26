@@ -1,17 +1,13 @@
 package com.example.iot_proj2;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
@@ -98,8 +94,8 @@ public class ProfileLecturer extends AppCompatActivity {
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLogOut:{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                case R.id.mLogOut: {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -109,7 +105,6 @@ public class ProfileLecturer extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.END);
             return true;
         });
-
 
 
         FStore = FirebaseFirestore.getInstance();
@@ -128,9 +123,9 @@ public class ProfileLecturer extends AppCompatActivity {
         });
 
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

@@ -1,17 +1,16 @@
 package com.example.iot_proj2;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.navigation.NavigationView;
@@ -34,6 +33,7 @@ public class ApplicationStatusStudent extends AppCompatActivity {
 
     private NavigationView nav_View;
     private FirebaseFirestore FStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,36 +59,34 @@ public class ApplicationStatusStudent extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            switch (id)
-            {
+            switch (id) {
                 case R.id.mStudentProfile: {
                     Intent intent = new Intent(this, ProfileStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentAppointmentStatus:
-                {
+                case R.id.mStudentAppointmentStatus: {
                     Intent intent = new Intent(this, AppointmentStatusStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentCreateAppointment:{
+                case R.id.mStudentCreateAppointment: {
                     Intent intent = new Intent(this, CreateAppointmentStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentUpdateResume:{
+                case R.id.mStudentUpdateResume: {
                     Intent intent = new Intent(this, ResumeStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentVacancyBoard:{
+                case R.id.mStudentVacancyBoard: {
                     Intent intent = new Intent(this, VacancyBoardStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLogOut:{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                case R.id.mLogOut: {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -109,65 +107,60 @@ public class ApplicationStatusStudent extends AppCompatActivity {
         progressDialog.show();
 
 
-        Query query = FStore.collection("Application").whereEqualTo("student_num",UserIDStatic.getInstance().getUserId()).orderBy("docId",Query.Direction.DESCENDING);
+        Query query = FStore.collection("Application").whereEqualTo("student_num", UserIDStatic.getInstance().getUserId()).orderBy("docId", Query.Direction.DESCENDING);
 
         query.get().addOnCompleteListener(task -> {
 
-          if(task.isSuccessful()) {
+            if (task.isSuccessful()) {
 
 
-              QuerySnapshot StudApplications = task.getResult();
-              List<Application> applicationList = new ArrayList<>();
-              if (!StudApplications.isEmpty() && StudApplications != null) {
+                QuerySnapshot StudApplications = task.getResult();
+                List<Application> applicationList = new ArrayList<>();
+                if (!StudApplications.isEmpty() && StudApplications != null) {
 
-                  List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+                    List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
 
-                  for (DocumentSnapshot documentSnapshot : StudApplications.getDocuments()) {
-                      Application application = documentSnapshot.toObject(Application.class);
+                    for (DocumentSnapshot documentSnapshot : StudApplications.getDocuments()) {
+                        Application application = documentSnapshot.toObject(Application.class);
 
-                      DocumentReference docVac = FStore.collection("Vacancy").document(application.getVacancy_id());
-                      Task<DocumentSnapshot> documentSnapshotTask = docVac.get();
-                      tasks.add(documentSnapshotTask);
-                      applicationList.add(application);
-                  }
+                        DocumentReference docVac = FStore.collection("Vacancy").document(application.getVacancy_id());
+                        Task<DocumentSnapshot> documentSnapshotTask = docVac.get();
+                        tasks.add(documentSnapshotTask);
+                        applicationList.add(application);
+                    }
 
-                  Tasks.whenAllSuccess(tasks.toArray(new Task[tasks.size()])).addOnSuccessListener(objects -> {
-                      for(int i = 0; i < tasks.size(); i++)
-                      {
-                          DocumentSnapshot VacDetails = tasks.get(i).getResult();
-                          if(VacDetails.exists())
-                          {
-                              Application application = applicationList.get(i);
-                              application.setModule(VacDetails.getString("module"));
-                              application.setType(VacDetails.getString("type"));
-                              application.setDescription(VacDetails.getString("description"));
-                              application.setPersonName(VacDetails.getString("lecturer"));
-                              application.setSemester(VacDetails.getString("semester"));
-                              application.setSalary(VacDetails.getString("salary"));
-                          }
-                      }
+                    Tasks.whenAllSuccess(tasks.toArray(new Task[tasks.size()])).addOnSuccessListener(objects -> {
+                        for (int i = 0; i < tasks.size(); i++) {
+                            DocumentSnapshot VacDetails = tasks.get(i).getResult();
+                            if (VacDetails.exists()) {
+                                Application application = applicationList.get(i);
+                                application.setModule(VacDetails.getString("module"));
+                                application.setType(VacDetails.getString("type"));
+                                application.setDescription(VacDetails.getString("description"));
+                                application.setPersonName(VacDetails.getString("lecturer"));
+                                application.setSemester(VacDetails.getString("semester"));
+                                application.setSalary(VacDetails.getString("salary"));
+                            }
+                        }
 
-                      runOnUiThread(()-> setAdapter(applicationList, progressDialog));
-                  });
+                        runOnUiThread(() -> setAdapter(applicationList, progressDialog));
+                    });
 
 
+                } else {
+                    runOnUiThread(() -> setAdapter(applicationList, progressDialog));
+                }
 
-
-              } else {
-                  runOnUiThread(()-> setAdapter(applicationList, progressDialog));
-              }
-
-          } else {
-              runOnUiThread(()-> setAdapter(new ArrayList<>(), progressDialog));
-          }
+            } else {
+                runOnUiThread(() -> setAdapter(new ArrayList<>(), progressDialog));
+            }
 
         });
 
 
     }
 
-    private void setAdapter(List<Application> applicationList, ProgressDialog p)
-    {
+    private void setAdapter(List<Application> applicationList, ProgressDialog p) {
         p.dismiss();
         ApplicationAdapterStudent applicationAdapterStudent = new ApplicationAdapterStudent(applicationList, this);
         ApplicationsRV.setAdapter(applicationAdapterStudent);
@@ -175,9 +168,9 @@ public class ApplicationStatusStudent extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(ApplicationStatusStudent.this);
         ApplicationsRV.setLayoutManager(layoutManager);
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

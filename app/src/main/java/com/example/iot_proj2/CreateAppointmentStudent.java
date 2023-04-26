@@ -1,10 +1,5 @@
 package com.example.iot_proj2;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,14 +8,14 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.navigation.NavigationView;
@@ -31,15 +26,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -82,6 +72,7 @@ public class CreateAppointmentStudent extends AppCompatActivity {
     private NavigationView nav_View;
 
     private FirebaseFirestore FStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,36 +99,34 @@ public class CreateAppointmentStudent extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            switch (id)
-            {
+            switch (id) {
                 case R.id.mStudentProfile: {
                     Intent intent = new Intent(this, ProfileStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentApplicationStatus:
-                {
+                case R.id.mStudentApplicationStatus: {
                     Intent intent = new Intent(this, ApplicationStatusStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentAppointmentStatus:{
+                case R.id.mStudentAppointmentStatus: {
                     Intent intent = new Intent(this, AppointmentStatusStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentUpdateResume:{
+                case R.id.mStudentUpdateResume: {
                     Intent intent = new Intent(this, ResumeStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentVacancyBoard:{
+                case R.id.mStudentVacancyBoard: {
                     Intent intent = new Intent(this, VacancyBoardStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLogOut:{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                case R.id.mLogOut: {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -147,7 +136,6 @@ public class CreateAppointmentStudent extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.END);
             return true;
         });
-
 
 
         ArrayAdapter<String> adapterTime = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, StaticStrings.TimeStringForView);
@@ -161,13 +149,11 @@ public class CreateAppointmentStudent extends AppCompatActivity {
         CollectionReference lecturerCol = FStore.collection("Lecturer");
 
         lecturerCol.get().addOnCompleteListener(task -> {
-          if (task.isSuccessful())
-            {
+            if (task.isSuccessful()) {
                 lecturerNames = new ArrayList<>();
                 lecturerNumbers = new ArrayList<>();
 
-                for (QueryDocumentSnapshot document : task.getResult())
-                {
+                for (QueryDocumentSnapshot document : task.getResult()) {
                     lecturerNames.add(document.getString("name"));
                     lecturerNumbers.add(document.getId());
                 }
@@ -178,38 +164,36 @@ public class CreateAppointmentStudent extends AppCompatActivity {
         });
 
 
-
         Submit.setOnClickListener(view -> {
-                if(!ValidDate)
-                {
-                    Toast.makeText(this, "Please choose a Date", Toast.LENGTH_SHORT).show();
-                    DateApp.setError("");
-                    return;
-                }
+            if (!ValidDate) {
+                Toast.makeText(this, "Please choose a Date", Toast.LENGTH_SHORT).show();
+                DateApp.setError("");
+                return;
+            }
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("");
             progressDialog.setMessage("Creating Appointment...");
             progressDialog.setCancelable(false);
             progressDialog.show();
 
-                String dateAppointment = DateApp.getText().toString();
-                String timeAppointment = TimeApp.getSelectedItem().toString();
+            String dateAppointment = DateApp.getText().toString();
+            String timeAppointment = TimeApp.getSelectedItem().toString();
 
-                String reason = Reason.getSelectedItem().toString();
+            String reason = Reason.getSelectedItem().toString();
 
-                String joinedDateTime = dateAppointment + " " +  StaticStrings.TimeString[TimeApp.getSelectedItemPosition()];
+            String joinedDateTime = dateAppointment + " " + StaticStrings.TimeString[TimeApp.getSelectedItemPosition()];
 
-                String lecturerStaffNum = lecturerNumbers.get(Lecturer.getSelectedItemPosition());
+            String lecturerStaffNum = lecturerNumbers.get(Lecturer.getSelectedItemPosition());
 
-                String lecturerName = Lecturer.getSelectedItem().toString();
+            String lecturerName = Lecturer.getSelectedItem().toString();
 
-                Query AppointmentsQuery = FStore.collection("Appointment").whereEqualTo("staff_num",lecturerStaffNum).whereEqualTo("start_time",joinedDateTime).whereEqualTo("status","approved");
-                Query getLatestId = FStore.collection("Appointment").orderBy("docId", Query.Direction.DESCENDING).limit(1);
-                DocumentReference StudentDetails = FStore.collection("Student").document(UserIDStatic.getInstance().getUserId());
+            Query AppointmentsQuery = FStore.collection("Appointment").whereEqualTo("staff_num", lecturerStaffNum).whereEqualTo("start_time", joinedDateTime).whereEqualTo("status", "approved");
+            Query getLatestId = FStore.collection("Appointment").orderBy("docId", Query.Direction.DESCENDING).limit(1);
+            DocumentReference StudentDetails = FStore.collection("Student").document(UserIDStatic.getInstance().getUserId());
 
-                Task<QuerySnapshot> appointmentsQuery = AppointmentsQuery.get();
-                Task<QuerySnapshot> latestId = getLatestId.get();
-                Task<DocumentSnapshot> stud = StudentDetails.get();
+            Task<QuerySnapshot> appointmentsQuery = AppointmentsQuery.get();
+            Task<QuerySnapshot> latestId = getLatestId.get();
+            Task<DocumentSnapshot> stud = StudentDetails.get();
 
 
             Tasks.whenAllSuccess(appointmentsQuery, latestId, stud).addOnSuccessListener(objects -> {
@@ -221,33 +205,31 @@ public class CreateAppointmentStudent extends AppCompatActivity {
                 String studName = Student.getString("name");
 
 
-                if(AppTaken.size() != 0)
-                {
+                if (AppTaken.size() != 0) {
                     progressDialog.dismiss();
                     runOnUiThread(() -> Toast.makeText(this, "Chosen Date and Time is already taken.", Toast.LENGTH_SHORT).show());
                     return;
                 }
 
-                int maxId =  1;
-                if(!LatestID.isEmpty() && LatestID != null)
-                {
+                int maxId = 1;
+                if (!LatestID.isEmpty() && LatestID != null) {
                     DocumentSnapshot ID = LatestID.getDocuments().get(0);
                     long id = ID.getLong("docId");
                     maxId = (int) id + 1;
                 }
 
-                DocumentReference newAppointment =  FStore.collection("Appointment").document(Integer.toString(maxId));
+                DocumentReference newAppointment = FStore.collection("Appointment").document(Integer.toString(maxId));
                 Map<String, Object> data = new HashMap<>();
-                data.put("docId",maxId);
-                data.put("staff_num",lecturerStaffNum);
-                data.put("start_time",joinedDateTime);
-                data.put("status","pending");
-                data.put("reason",reason);
+                data.put("docId", maxId);
+                data.put("staff_num", lecturerStaffNum);
+                data.put("start_time", joinedDateTime);
+                data.put("status", "pending");
+                data.put("reason", reason);
                 data.put("stud_num", UserIDStatic.getInstance().getUserId());
 
                 newAppointment.set(data).addOnSuccessListener(unused -> {
-                    new Thread(()->{
-                        SendEmail(studEmail,"Vacancy Portal - Appointment Submitted","Hello, "+studName+".\n\nYour appointment with "+lecturerName+" on "+dateAppointment+" at "+timeAppointment+" has been submitted, and is waiting approval from the lecturer.\n\nThank you.\nKind regards,\nVacancy Team.");
+                    new Thread(() -> {
+                        SendEmail(studEmail, "Vacancy Portal - Appointment Submitted", "Hello, " + studName + ".\n\nYour appointment with " + lecturerName + " on " + dateAppointment + " at " + timeAppointment + " has been submitted, and is waiting approval from the lecturer.\n\nThank you.\nKind regards,\nVacancy Team.");
                     }).start();
 
                     progressDialog.dismiss();
@@ -275,17 +257,16 @@ public class CreateAppointmentStudent extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        datePickerDialog = new DatePickerDialog(this,R.style.MyDatePickerStyle , (view1, year1, month1, dayOfMonth) -> {
-            String formatedMonth = String.format(Locale.getDefault(),"%02d",(month1 + 1));
-            String formatedDay = String.format(Locale.getDefault(),"%02d",dayOfMonth);
-            DateApp.setText(year1 +"/"+formatedMonth+"/"+formatedDay);
+        datePickerDialog = new DatePickerDialog(this, R.style.MyDatePickerStyle, (view1, year1, month1, dayOfMonth) -> {
+            String formatedMonth = String.format(Locale.getDefault(), "%02d", (month1 + 1));
+            String formatedDay = String.format(Locale.getDefault(), "%02d", dayOfMonth);
+            DateApp.setText(year1 + "/" + formatedMonth + "/" + formatedDay);
 
             Calendar calendar1 = Calendar.getInstance();
             calendar1.set(year1, month1, dayOfMonth);
             int dayOfWeek = calendar1.get(Calendar.DAY_OF_WEEK);
 
-            if(dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY)
-            {
+            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
                 Toast.makeText(this, "The Lecturer is unavailable on weekends", Toast.LENGTH_SHORT).show();
                 DateApp.setError("");
                 ValidDate = false;
@@ -298,15 +279,13 @@ public class CreateAppointmentStudent extends AppCompatActivity {
         }, year, month, day);
 
 
-        calendar.add(Calendar.DAY_OF_MONTH,1);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if(dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY)
-        {
-            if(dayOfWeek == Calendar.SATURDAY)
-            {
-                calendar.add(Calendar.DAY_OF_MONTH,2);
+        if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+            if (dayOfWeek == Calendar.SATURDAY) {
+                calendar.add(Calendar.DAY_OF_MONTH, 2);
             } else {
-                calendar.add(Calendar.DAY_OF_MONTH,1);
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
 
@@ -320,8 +299,7 @@ public class CreateAppointmentStudent extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void SendEmail(String email, String subject, String body)
-    {
+    private void SendEmail(String email, String subject, String body) {
         String username = "iotgrp2023@gmail.com";
         String password = "qdqxulmrnbfkrqvg";
 
@@ -349,14 +327,13 @@ public class CreateAppointmentStudent extends AppCompatActivity {
         }
     }
 
-    private void openAppointmentStatus()
-    {
+    private void openAppointmentStatus() {
         Intent intent = new Intent(this, AppointmentStatusStudent.class);
         startActivity(intent);
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

@@ -37,7 +37,7 @@ public class PushNotificationService extends FirebaseMessagingService {
             NotificationManagerCompat.from(this).notify(1, notification.build());
 
 
-        super.onMessageReceived(remoteMessage);
+            super.onMessageReceived(remoteMessage);
+        }
     }
-}
 }

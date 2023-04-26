@@ -1,18 +1,16 @@
 package com.example.iot_proj2;
 
-import androidx.annotation.NonNull;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.navigation.NavigationView;
@@ -35,6 +33,7 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
     private NavigationView nav_View;
 
     private FirebaseFirestore FStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +86,8 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLogOut:{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                case R.id.mLogOut: {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -108,16 +107,14 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        Query query = FStore.collection("Vacancy").whereEqualTo("status","0").whereEqualTo("created_by",UserIDStatic.getInstance().getUserId());
+        Query query = FStore.collection("Vacancy").whereEqualTo("status", "0").whereEqualTo("created_by", UserIDStatic.getInstance().getUserId());
         query.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful())
-            {
+            if (task.isSuccessful()) {
                 QuerySnapshot completedVac = task.getResult();
                 List<Vacancy> vacancyList = new ArrayList<>();
                 List<Application> applicationList = new ArrayList<>();
 
-                if(completedVac != null && !completedVac.isEmpty())
-                {
+                if (completedVac != null && !completedVac.isEmpty()) {
 
                     for (DocumentSnapshot documentSnapshot : completedVac.getDocuments()) {
                         Vacancy vacancy = documentSnapshot.toObject(Vacancy.class);
@@ -125,23 +122,20 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
                     }
 
 
-                    Query getAcceptedApp = FStore.collection("Application").whereEqualTo("status","accepted");
+                    Query getAcceptedApp = FStore.collection("Application").whereEqualTo("status", "accepted");
                     getAcceptedApp.get().addOnCompleteListener(task1 -> {
-                        if(task1.isSuccessful())
-                        {
+                        if (task1.isSuccessful()) {
                             QuerySnapshot accApp = task1.getResult();
 
-                            if(accApp != null && !accApp.isEmpty())
-                            {
+                            if (accApp != null && !accApp.isEmpty()) {
 
                                 List<Task<DocumentSnapshot>> tasksNames = new ArrayList<>();
                                 List<Application> tempList = new ArrayList<>();
-                                for(Vacancy vacancy : vacancyList) {
+                                for (Vacancy vacancy : vacancyList) {
                                     for (DocumentSnapshot documentSnapshot : accApp.getDocuments()) {
                                         Application application = documentSnapshot.toObject(Application.class);
 
-                                        if (application.getVacancy_id().equals(Long.toString(vacancy.getDocId())))
-                                        {
+                                        if (application.getVacancy_id().equals(Long.toString(vacancy.getDocId()))) {
                                             application.setModule(vacancy.getModule());
                                             application.setType(vacancy.getType());
                                             application.setDescription(vacancy.getDescription());
@@ -158,21 +152,19 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
                                 }
 
                                 Tasks.whenAllSuccess(tasksNames.toArray(new Task[tasksNames.size()])).addOnSuccessListener(obj -> {
-                                    for(int z = 0; z < tasksNames.size(); z++)
-                                    {
+                                    for (int z = 0; z < tasksNames.size(); z++) {
                                         DocumentSnapshot name = tasksNames.get(z).getResult();
                                         Application app = tempList.get(z);
                                         app.setPersonName(name.getString("name"));
                                         applicationList.add(app);
                                     }
-                                    runOnUiThread(() -> setAdapter(applicationList,progressDialog));
+                                    runOnUiThread(() -> setAdapter(applicationList, progressDialog));
                                 });
 
 
-                            }else {
-                                runOnUiThread(() -> setAdapter(applicationList,progressDialog));
+                            } else {
+                                runOnUiThread(() -> setAdapter(applicationList, progressDialog));
                             }
-
 
 
                         }
@@ -180,15 +172,15 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
                     });
 
 
-                }else {
-                    runOnUiThread(() -> setAdapter(applicationList,progressDialog));
+                } else {
+                    runOnUiThread(() -> setAdapter(applicationList, progressDialog));
                 }
             }
         });
 
     }
-    private void setAdapter(List<Application> applicationList, ProgressDialog p)
-    {
+
+    private void setAdapter(List<Application> applicationList, ProgressDialog p) {
         p.dismiss();
         ApplicationAdapterAccepted applicationAdapter = new ApplicationAdapterAccepted(applicationList, this);
         ApplicationsRV.setAdapter(applicationAdapter);
@@ -198,8 +190,7 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

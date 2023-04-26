@@ -5,7 +5,6 @@ import android.icu.lang.UCharacter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,25 +32,23 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentAdapterStudent.AppointmentViewHolder>{
+public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentAdapterStudent.AppointmentViewHolder> {
 
-    private List<Appointment> appointmentList;
+    private final List<Appointment> appointmentList;
 
-    private Context context;
+    private final Context context;
 
     public AppointmentAdapterStudent(List<Appointment> appointmentList, Context context) {
         this.appointmentList = appointmentList;
         this.context = context;
     }
 
-    public static class AppointmentViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class AppointmentViewHolder extends RecyclerView.ViewHolder {
         TextView appointmentTitle, appointmentTime, appointmentStatus, appointmentDate, tvEmpty, appointmentReason;
         ImageView withdrawButton;
         View separator;
 
-        public AppointmentViewHolder(View itemView)
-        {
+        public AppointmentViewHolder(View itemView) {
             super(itemView);
             appointmentTitle = itemView.findViewById(R.id.appointmentTitleTextViewStudent);
             appointmentTime = itemView.findViewById(R.id.appointmentTimeTextViewStudent);
@@ -74,8 +71,7 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
 
     @Override
     public void onBindViewHolder(@NonNull AppointmentAdapterStudent.AppointmentViewHolder holder, int position) {
-        if(appointmentList.isEmpty())
-        {
+        if (appointmentList.isEmpty()) {
             holder.appointmentTitle.setVisibility(View.GONE);
             holder.appointmentTime.setVisibility(View.GONE);
             holder.appointmentStatus.setVisibility(View.GONE);
@@ -97,7 +93,7 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
 
             Appointment appointment = appointmentList.get(position);
 
-            holder.appointmentTitle.setText("Appointment with "+appointment.getLecturerName());
+            holder.appointmentTitle.setText("Appointment with " + appointment.getLecturerName());
 
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
@@ -117,22 +113,22 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
             holder.appointmentReason.setText(appointment.getReason());
 
             String status = appointment.getStatus();
-            holder.appointmentStatus.setText(UCharacter.toTitleCase(Locale.UK,status,null,0));
-            switch (status)
-            {
-                case "cancelled":holder.appointmentStatus.setTextColor(ContextCompat.getColor(context,R.color.Cancelled));
-                break;
-                case "pending" : holder.appointmentStatus.setTextColor(ContextCompat.getColor(context,R.color.Pending));
-                break;
-                case "approved" : holder.appointmentStatus.setTextColor(ContextCompat.getColor(context,R.color.Approved));
-                break;
+            holder.appointmentStatus.setText(UCharacter.toTitleCase(Locale.UK, status, null, 0));
+            switch (status) {
+                case "cancelled":
+                    holder.appointmentStatus.setTextColor(ContextCompat.getColor(context, R.color.Cancelled));
+                    break;
+                case "pending":
+                    holder.appointmentStatus.setTextColor(ContextCompat.getColor(context, R.color.Pending));
+                    break;
+                case "approved":
+                    holder.appointmentStatus.setTextColor(ContextCompat.getColor(context, R.color.Approved));
+                    break;
             }
 
-            if("approved".equals(appointment.getStatus()) || "pending".equals(appointment.getStatus()))
-            {
+            if ("approved".equals(appointment.getStatus()) || "pending".equals(appointment.getStatus())) {
                 holder.withdrawButton.setVisibility(View.VISIBLE);
-            } else
-            {
+            } else {
                 holder.withdrawButton.setVisibility(View.GONE);
             }
 
@@ -145,10 +141,9 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
                             FStore = FirebaseFirestore.getInstance();
                             FStore.collection("Appointment").document(Long.toString(appointment.getDocId())).update("status", "cancelled")
                                     .addOnSuccessListener(unused -> {
-                                        if("approved".equals(appointment.getStatus()))
-                                        {
-                                            new Thread(() -> SendEmail(appointment.getLecturerEmail(),"Vacancy Portal - Appointment Cancelled with "+appointment.getStudentName()+"("+appointment.getStud_num()+")"
-                                                    ,"Hello, "+appointment.getLecturerName()+".\n\n"+appointment.getStudentName()+"("+appointment.getStudentEmail()+")"+" has cancelled their appointment with you that was scheduled for "+appointment.getStart_time()+".\n\nThank you.\nKind regards,\nVacancy Team.")).start();
+                                        if ("approved".equals(appointment.getStatus())) {
+                                            new Thread(() -> SendEmail(appointment.getLecturerEmail(), "Vacancy Portal - Appointment Cancelled with " + appointment.getStudentName() + "(" + appointment.getStud_num() + ")"
+                                                    , "Hello, " + appointment.getLecturerName() + ".\n\n" + appointment.getStudentName() + "(" + appointment.getStudentEmail() + ")" + " has cancelled their appointment with you that was scheduled for " + appointment.getStart_time() + ".\n\nThank you.\nKind regards,\nVacancy Team.")).start();
                                         }
 
                                         appointment.setStatus("cancelled");
@@ -159,7 +154,7 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
 
 
                         })
-                        .setNegativeButton("No",null)
+                        .setNegativeButton("No", null)
                         .show();
             });
 
@@ -168,15 +163,15 @@ public class AppointmentAdapterStudent extends RecyclerView.Adapter<AppointmentA
     }
 
     @Override
-    public int getItemCount () {
+    public int getItemCount() {
         if (appointmentList.isEmpty()) {
             return 1;
         } else {
             return appointmentList.size();
         }
     }
-    private void SendEmail(String email, String subject, String body)
-    {
+
+    private void SendEmail(String email, String subject, String body) {
         String username = "iotgrp2023@gmail.com";
         String password = "qdqxulmrnbfkrqvg";
 

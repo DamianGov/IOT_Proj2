@@ -22,6 +22,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        benchmark {
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['release']
+            debuggable false
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -39,6 +44,11 @@ android {
         exclude 'META-INF/NOTICE.md'
         exclude 'META-INF/LICENSE.md'
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 
 }
 
@@ -53,19 +63,41 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
-    implementation 'com.google.firebase:firebase-firestore:24.4.5'
-    implementation 'com.google.firebase:firebase-messaging:23.0.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    implementation 'com.google.firebase:firebase-firestore:24.5.0'
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+
+    androidTestImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation platform('com.google.firebase:firebase-bom:31.4.0')
+
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation 'org.mindrot:jbcrypt:0.4'
     implementation 'com.sun.mail:android-mail:1.6.7'
     implementation 'com.sun.mail:android-activation:1.6.7'
-    implementation 'com.dropbox.core:dropbox-core-sdk:3.1.2'
+    implementation 'com.dropbox.core:dropbox-core-sdk:5.4.4'
     implementation 'com.android.volley:volley:1.2.1'
 
+    // JUnit 4 framework
+    testImplementation 'junit:junit:4.13.2'
 
+    // Android JUnit Runner
+    testImplementation 'androidx.test:runner:1.5.2'
+
+    // Android JUnit Rules
+    testImplementation 'androidx.test:rules:1.5.0'
+
+
+    // Espresso Intent
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+
+    // Espresso Accessibility
+    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.5.1'
+
+    // Espresso Contrib
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
+
+    testImplementation 'androidx.test:core:1.5.0'
+
+    
 }

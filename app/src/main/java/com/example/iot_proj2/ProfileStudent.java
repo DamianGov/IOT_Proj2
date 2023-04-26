@@ -1,28 +1,18 @@
 package com.example.iot_proj2;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,36 +73,34 @@ public class ProfileStudent extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            switch (id)
-            {
+            switch (id) {
                 case R.id.mStudentVacancyBoard: {
                     Intent intent = new Intent(this, VacancyBoardStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentApplicationStatus:
-                {
+                case R.id.mStudentApplicationStatus: {
                     Intent intent = new Intent(this, ApplicationStatusStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentAppointmentStatus:{
+                case R.id.mStudentAppointmentStatus: {
                     Intent intent = new Intent(this, AppointmentStatusStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentCreateAppointment:{
+                case R.id.mStudentCreateAppointment: {
                     Intent intent = new Intent(this, CreateAppointmentStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentUpdateResume:{
+                case R.id.mStudentUpdateResume: {
                     Intent intent = new Intent(this, ResumeStudent.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLogOut:{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                case R.id.mLogOut: {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -122,10 +110,6 @@ public class ProfileStudent extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.END);
             return true;
         });
-
-
-
-
 
 
         FStore = FirebaseFirestore.getInstance();
@@ -144,18 +128,13 @@ public class ProfileStudent extends AppCompatActivity {
         });
 
 
-
-
         DocumentReference PosTypeRef = FStore.collection("Tutor").document(StudentNum);
         PosTypeRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful())
-            {
+            if (task.isSuccessful()) {
                 DocumentSnapshot snap = task.getResult();
-                if(snap.exists())
-                {
+                if (snap.exists()) {
                     ProfPost.setText(snap.getString("type"));
-                } else
-                {
+                } else {
                     ProfPost.setText("Student");
                 }
             }
@@ -165,8 +144,7 @@ public class ProfileStudent extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

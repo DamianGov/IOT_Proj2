@@ -1,5 +1,9 @@
 package com.example.iot_proj2;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -7,16 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.widget.AdapterView;
-
 import com.example.iot_proj2.databinding.ActivityAdminZoneBinding;
-import com.example.iot_proj2.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
-
-import java.io.Serializable;
 
 public class AdminZone extends AppCompatActivity {
 
@@ -27,7 +23,6 @@ public class AdminZone extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminZoneBinding.inflate(getLayoutInflater());
-
 
 
         setContentView(binding.getRoot());
@@ -56,8 +51,8 @@ public class AdminZone extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            if (id == R.id.mLogOut){
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            if (id == R.id.mLogOut) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -72,21 +67,18 @@ public class AdminZone extends AppCompatActivity {
 
         binding.bottomNavigationViewAdmin.setOnItemSelectedListener(item -> {
 
-            switch (item.getItemId())
-            {
-                case R.id.studentMenuOption: replaceFragment(new StudentFragment());
-                    break;
-                default:replaceFragment(new LecturerFragment());
-                    break;
+            if (item.getItemId() == R.id.studentMenuOption) {
+                replaceFragment(new StudentFragment());
+            } else {
+                replaceFragment(new LecturerFragment());
             }
 
             return true;
         });
     }
 
-    private void replaceFragment(Fragment fragment)
-    {
-        FragmentManager fragmentManager= getSupportFragmentManager();
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.frameLayoutAdmin, fragment);
@@ -95,8 +87,7 @@ public class AdminZone extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }

@@ -1,18 +1,15 @@
 package com.example.iot_proj2;
 
-import androidx.annotation.NonNull;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +30,7 @@ public class VacancyBoardLecturer extends AppCompatActivity {
     private NavigationView nav_View;
 
     private FirebaseFirestore FStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +82,8 @@ public class VacancyBoardLecturer extends AppCompatActivity {
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLogOut:{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                case R.id.mLogOut: {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -99,25 +97,21 @@ public class VacancyBoardLecturer extends AppCompatActivity {
 
         FStore = FirebaseFirestore.getInstance();
 
-        Query query = FStore.collection("Vacancy").whereEqualTo("created_by", UserIDStatic.getInstance().getUserId()).orderBy("docId",Query.Direction.DESCENDING);
+        Query query = FStore.collection("Vacancy").whereEqualTo("created_by", UserIDStatic.getInstance().getUserId()).orderBy("docId", Query.Direction.DESCENDING);
         query.get()
                 .addOnCompleteListener(task -> {
 
-                    if (task.isSuccessful())
-                    {
+                    if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         List<Vacancy> vacancyList = new ArrayList<>();
-                        if(querySnapshot != null && !querySnapshot.isEmpty())
-                        {
-                            for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments())
-                            {
+                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                            for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
                                 Vacancy vacancy = documentSnapshot.toObject(Vacancy.class);
                                 vacancyList.add(vacancy);
                             }
 
                             runOnUiThread(() -> setAdapter(vacancyList));
-                        }
-                        else {
+                        } else {
                             runOnUiThread(() -> setAdapter(vacancyList));
                         }
                     }
@@ -125,17 +119,16 @@ public class VacancyBoardLecturer extends AppCompatActivity {
 
     }
 
-    private void setAdapter(List<Vacancy> vacancyList)
-    {
-        VacancyAdapter vacancyAdapter = new VacancyAdapter(vacancyList,this);
+    private void setAdapter(List<Vacancy> vacancyList) {
+        VacancyAdapter vacancyAdapter = new VacancyAdapter(vacancyList, this);
         VacBoard.setAdapter(vacancyAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(VacancyBoardLecturer.this);
         VacBoard.setLayoutManager(layoutManager);
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         return;
     }
 }
