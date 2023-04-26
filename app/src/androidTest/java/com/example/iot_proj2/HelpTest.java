@@ -22,7 +22,6 @@ public class HelpTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        //Intents.init();
     }
 
     @Test
