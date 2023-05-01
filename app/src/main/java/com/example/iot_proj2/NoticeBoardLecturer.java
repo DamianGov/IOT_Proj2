@@ -1,52 +1,43 @@
 package com.example.iot_proj2;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.widget.EditText;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProfileLecturer extends AppCompatActivity {
+public class NoticeBoardLecturer extends AppCompatActivity {
 
-    @BindView(R.id.edtPLecName)
-    EditText LecName;
-
-    @BindView(R.id.edtPLecFullName)
-    EditText LecFullName;
-
-    @BindView(R.id.edtPLecStaffNum)
-    EditText LecStaffNum;
-
-    @BindView(R.id.edtPLecEmail)
-    EditText LecEmail;
-
-    @BindView(R.id.edtPLecFaculty)
-    EditText LecFac;
-
-    @BindView(R.id.edtPLecDepart)
-    EditText LecDepar;
-
-    @BindView(R.id.edtPLecModule)
-    EditText LecModule;
-
-    private FirebaseFirestore FStore;
+    @BindView(R.id.rvLecNoticeBoard)
+    RecyclerView NoticeBoard;
 
     private NavigationView nav_View;
+
+    private FirebaseFirestore FStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_lecturer);
+        setContentView(R.layout.activity_notice_board_lecturer);
 
         ButterKnife.bind(this);
 
@@ -70,20 +61,19 @@ public class ProfileLecturer extends AppCompatActivity {
 
 
             switch (id) {
-                case R.id.mLecturerVacancyBoard: {
-                    Intent intent = new Intent(this, VacancyBoardLecturer.class);
-                    startActivity(intent);
-                }
-                break;
-                case R.id.mLecturerNoticeBoard:
-                {
-                    Intent intent = new Intent(this, NoticeBoardLecturer.class);
+                case R.id.mLecturerProfile: {
+                    Intent intent = new Intent(this, ProfileLecturer.class);
                     startActivity(intent);
                 }
                 break;
                 case R.id.mLecturerCreateNote:
                 {
                     Intent intent = new Intent(this, CreateNoticeLecturer.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLecturerVacancyBoard: {
+                    Intent intent = new Intent(this, VacancyBoardLecturer.class);
                     startActivity(intent);
                 }
                 break;
@@ -122,19 +112,33 @@ public class ProfileLecturer extends AppCompatActivity {
 
         FStore = FirebaseFirestore.getInstance();
 
-        String StaffNum = UserIDStatic.getInstance().getUserId();
+        Query query = FStore.collection("Note").whereEqualTo("created_by",UserIDStatic.getInstance().getUserId()).orderBy("docId", Query.Direction.DESCENDING);
 
-        DocumentReference docRef = FStore.collection("Lecturer").document(StaffNum);
-        docRef.addSnapshotListener((value, error) -> {
-            LecName.setText(value.getString("name"));
-            LecFullName.setText(value.getString("name"));
-            LecStaffNum.setText(StaffNum);
-            LecEmail.setText(value.getString("email"));
-            LecFac.setText(value.getString("faculty"));
-            LecDepar.setText(value.getString("department"));
-            LecModule.setText(value.getString("module"));
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful())
+            {
+                QuerySnapshot querySnapshot = task.getResult();
+                List<Notice> noticeList = new ArrayList<>();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                        Notice notice = documentSnapshot.toObject(Notice.class);
+                        noticeList.add(notice);
+                    }
+
+                    runOnUiThread(() -> setAdapter(noticeList));
+                } else {
+                    runOnUiThread(() -> setAdapter(noticeList));
+                }
+            }
         });
+    }
 
+    private void setAdapter(List<Notice> noticeList) {
+        NoticeAdapter noticeAdapter = new NoticeAdapter(noticeList, this);
+        NoticeBoard.setAdapter(noticeAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(NoticeBoardLecturer.this);
+        NoticeBoard.setLayoutManager(layoutManager);
     }
 
     @Override

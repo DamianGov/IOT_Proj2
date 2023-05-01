@@ -7,6 +7,15 @@
     <item android:title="Profile"
         android:id="@+id/mStudentProfile"
         android:icon="@drawable/icon_profile"/>
+    <item android:title="Notice Board"
+        android:id="@+id/mLecturerNoticeBoard"
+        android:icon="@drawable/baseline_sticky_note_2_24"/>
+    <item android:title="Notice Board"
+        android:id="@+id/mStudentNoticeBoard"
+        android:icon="@drawable/baseline_sticky_note_2_24"/>
+    <item android:title="Create a Notice"
+        android:id="@+id/mLecturerCreateNote"
+        android:icon="@drawable/baseline_note_add_24"/>
     <item android:title="Vacancy Board"
         android:id="@+id/mLecturerVacancyBoard"
         android:icon="@drawable/icon_vacancy_board"/>

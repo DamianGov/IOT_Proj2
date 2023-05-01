@@ -105,33 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            FirebaseMessaging.getInstance().getToken()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            String token = task.getResult();
-                            UserIDStatic.getInstance().setToken(token);
-                            Query tokenExists = FStore.collection("Device_Token").whereEqualTo("token", token).limit(1);
 
-                            tokenExists.get().addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
-                                    QuerySnapshot tokenSnapshot = task1.getResult();
-
-                                    if (tokenSnapshot.isEmpty()) {
-
-                                        String ID = UUID.randomUUID().toString();
-
-                                        DocumentReference documentReference = FStore.collection("Device_Token").document(ID);
-                                        Map<String, Object> data = new HashMap<>();
-                                        data.put("token", token);
-
-                                        documentReference.set(data);
-                                    }
-
-                                }
-                            });
-                        }
-
-                    });
 
             // Handle Admin Details
             if (UserNumber.equals("0000000013") && Password.equals("AdminUser@99")) {
@@ -154,14 +128,43 @@ public class MainActivity extends AppCompatActivity {
                                 return;
                             }
 
+                            FirebaseMessaging.getInstance().getToken()
+                                    .addOnCompleteListener(taskMes -> {
+                                        if (taskMes.isSuccessful()) {
+                                            String token = taskMes.getResult();
+                                            UserIDStatic.getInstance().setToken(token);
+                                            Query tokenExists = FStore.collection("Device_Token").whereEqualTo("token", token).limit(1);
+
+                                            tokenExists.get().addOnCompleteListener(task1 -> {
+                                                if (task1.isSuccessful()) {
+                                                    QuerySnapshot tokenSnapshot = task1.getResult();
+
+                                                    if (tokenSnapshot.isEmpty()) {
+
+                                                        String ID = UUID.randomUUID().toString();
+
+                                                        DocumentReference documentReference = FStore.collection("Device_Token").document(ID);
+                                                        Map<String, Object> data = new HashMap<>();
+                                                        data.put("token", token);
+                                                        data.put("faculty",userSnap.getString("faculty"));
+
+                                                        documentReference.set(data);
+                                                    }
+
+                                                }
+                                            });
+                                        }
+
+                                    });
+
                             UserIDStatic.getInstance().setUserId(UserNumber);
 
                             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
                             if (finalUserType == "Student")
-                                openVacancyStud();
+                                openNoticeStud();
                             else
-                                openVacancyLect();
+                                openNoticeLect();
                         } else {
                             Toast.makeText(MainActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                             return;
@@ -293,13 +296,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void openVacancyStud() {
-        Intent intent = new Intent(this, VacancyBoardStudent.class);
+    public void openNoticeStud() {
+        Intent intent = new Intent(this, Notice_Board_Student.class);
         startActivity(intent);
     }
 
-    public void openVacancyLect() {
-        Intent intent = new Intent(this, VacancyBoardLecturer.class);
+    public void openNoticeLect() {
+        Intent intent = new Intent(this, NoticeBoardLecturer.class);
         startActivity(intent);
     }
 

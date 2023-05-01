@@ -52,6 +52,8 @@ public class VacancyBoardStudent extends AppCompatActivity {
         nav_View = (NavigationView) findViewById(R.id.navigationView);
         Menu navMenu = nav_View.getMenu();
         navMenu.findItem(R.id.mLecturerProfile).setVisible(false);
+        navMenu.findItem(R.id.mLecturerCreateNote).setVisible(false);
+        navMenu.findItem(R.id.mLecturerNoticeBoard).setVisible(false);
         navMenu.findItem(R.id.mLecturerVacancyBoard).setVisible(false);
         navMenu.findItem(R.id.mLecturerCreateVac).setVisible(false);
         navMenu.findItem(R.id.mLecturerApplicationStatus).setVisible(false);
@@ -64,6 +66,12 @@ public class VacancyBoardStudent extends AppCompatActivity {
             switch (id) {
                 case R.id.mStudentProfile: {
                     Intent intent = new Intent(this, ProfileStudent.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mStudentNoticeBoard:
+                {
+                    Intent intent = new Intent(this, Notice_Board_Student.class);
                     startActivity(intent);
                 }
                 break;

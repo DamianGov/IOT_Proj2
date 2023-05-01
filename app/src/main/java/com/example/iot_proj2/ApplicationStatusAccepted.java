@@ -51,6 +51,7 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
         nav_View = (NavigationView) findViewById(R.id.navigationView);
         Menu navMenu = nav_View.getMenu();
         navMenu.findItem(R.id.mStudentProfile).setVisible(false);
+        navMenu.findItem(R.id.mStudentNoticeBoard).setVisible(false);
         navMenu.findItem(R.id.mStudentVacancyBoard).setVisible(false);
         navMenu.findItem(R.id.mStudentApplicationStatus).setVisible(false);
         navMenu.findItem(R.id.mStudentAppointmentStatus).setVisible(false);
@@ -63,6 +64,18 @@ public class ApplicationStatusAccepted extends AppCompatActivity {
             switch (id) {
                 case R.id.mLecturerProfile: {
                     Intent intent = new Intent(this, ProfileLecturer.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLecturerNoticeBoard:
+                {
+                    Intent intent = new Intent(this, NoticeBoardLecturer.class);
+                    startActivity(intent);
+                }
+                break;
+                case R.id.mLecturerCreateNote:
+                {
+                    Intent intent = new Intent(this, CreateNoticeLecturer.class);
                     startActivity(intent);
                 }
                 break;

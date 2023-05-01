@@ -37,6 +37,9 @@ public class AdminZone extends AppCompatActivity {
         Menu navMenu = nav_View.getMenu();
         navMenu.findItem(R.id.mLecturerProfile).setVisible(false);
         navMenu.findItem(R.id.mLecturerVacancyBoard).setVisible(false);
+        navMenu.findItem(R.id.mLecturerNoticeBoard).setVisible(false);
+        navMenu.findItem(R.id.mStudentNoticeBoard).setVisible(false);
+        navMenu.findItem(R.id.mLecturerCreateNote).setVisible(false);
         navMenu.findItem(R.id.mLecturerCreateVac).setVisible(false);
         navMenu.findItem(R.id.mLecturerApplicationStatus).setVisible(false);
         navMenu.findItem(R.id.mLecturerApplicationAcceptStatus).setVisible(false);

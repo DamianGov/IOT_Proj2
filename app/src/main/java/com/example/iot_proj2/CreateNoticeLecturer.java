@@ -1,20 +1,19 @@
 package com.example.iot_proj2;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.Spinner;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.navigation.NavigationView;
@@ -25,51 +24,36 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CreateVacancyLecturer extends AppCompatActivity {
+public class CreateNoticeLecturer extends AppCompatActivity {
 
-    @BindView(R.id.spnLecCVModule)
-    Spinner Module;
+    @BindView(R.id.edtLecCNTitle)
+    EditText Title;
 
-    @BindView(R.id.spnLecCVSemester)
-    Spinner Semester;
-
-    @BindView(R.id.edtLecCVSalary)
-    EditText Salary;
-
-    @BindView(R.id.edtLecCVDescript)
+    @BindView(R.id.edtLecCNDescript)
     EditText Description;
 
-    @BindView(R.id.rbLecCVTutor)
-    RadioButton Tutor;
-
-    @BindView(R.id.rbLecCVTeachingAssist)
-    RadioButton TAssist;
-
-    @BindView(R.id.btnLecCVSubmit)
+    @BindView(R.id.btnLecCNSubmit)
     Button Submit;
 
     private FirebaseFirestore FStore;
 
-    private String modules;
-
     private NavigationView nav_View;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_vacancy_lecturer);
+        setContentView(R.layout.activity_create_notice_lecturer);
 
         ButterKnife.bind(this);
 
-
-        // NAV
         final DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
         findViewById(R.id.imgMenu).setOnClickListener(view -> {
             drawerLayout.openDrawer(GravityCompat.END);
@@ -100,14 +84,14 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLecturerCreateNote:
+                case R.id.mLecturerAppointmentStatus:
                 {
-                    Intent intent = new Intent(this, CreateNoticeLecturer.class);
+                    Intent intent = new Intent(this, AppointmentStatusLecturer.class);
                     startActivity(intent);
                 }
                 break;
-                case R.id.mLecturerAppointmentStatus: {
-                    Intent intent = new Intent(this, AppointmentStatusLecturer.class);
+                case R.id.mLecturerCreateVac: {
+                    Intent intent = new Intent(this, CreateVacancyLecturer.class);
                     startActivity(intent);
                 }
                 break;
@@ -138,73 +122,41 @@ public class CreateVacancyLecturer extends AppCompatActivity {
             return true;
         });
 
+
         FStore = FirebaseFirestore.getInstance();
 
-        String StaffNum = UserIDStatic.getInstance().getUserId();
-
-        String[] semester = {"Semester 1", "Semester 2"};
-
-        ArrayAdapter<String> SemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, semester);
-        Semester.setAdapter(SemAdapter);
-        Semester.setPrompt("Select Semester");
-
-
-        DocumentReference docRef = FStore.collection("Lecturer").document(StaffNum);
-
-        docRef.addSnapshotListener((value, error) -> {
-            modules = value.getString("module");
-
-            String[] modulesSplit = modules.split(",");
-            ArrayAdapter<String> ModAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modulesSplit);
-            Module.setAdapter(ModAdapter);
-            Module.setPrompt("Modules");
-        });
-
         Submit.setOnClickListener(view -> {
-            String module = Module.getSelectedItem().toString();
-            String salary = Salary.getText().toString();
-            String description = Description.getText().toString().trim();
-            String position;
-            if (Tutor.isChecked())
-                position = "Tutor";
-            else
-                position = "Teaching Assistant";
+           String title = Title.getText().toString().trim();
+           String description = Description.getText().toString().trim();
 
-            String semsterChosen;
-            int SemesterIndex = Semester.getSelectedItemPosition();
-            if (SemesterIndex == 0)
-                semsterChosen = "1";
-            else
-                semsterChosen = "2";
+           if (title.length() == 0)
+           {
+               Title.setError("Please enter a Title");
+               return;
+           }
 
-            if (salary.length() == 0) {
-                Salary.setError("Please enter the Salary per/hour");
-                return;
-            }
-
-            salary = "R" + salary;
-
-            if (description.length() == 0) {
-                Description.setError("Please enter a Description");
-                return;
-            }
+           if (description.length() == 0)
+           {
+               Description.setError("Please enter a Description");
+               return;
+           }
 
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("");
-            progressDialog.setMessage("Creating Vacancy...");
+            progressDialog.setMessage("Creating Notice...");
             progressDialog.setCancelable(false);
             progressDialog.show();
 
-            Query getLatestId = FStore.collection("Vacancy").orderBy("docId", Query.Direction.DESCENDING).limit(1);
+            Query getLatestId = FStore.collection("Note").orderBy("docId", Query.Direction.DESCENDING).limit(1);
             DocumentReference docLec = FStore.collection("Lecturer").document(UserIDStatic.getInstance().getUserId());
 
             Task<QuerySnapshot> task = getLatestId.get();
             Task<DocumentSnapshot> GetLec = docLec.get();
 
-            String finalSalary = salary;
             Tasks.whenAllSuccess(task, GetLec).addOnSuccessListener(objects -> {
                 QuerySnapshot taskResult = task.getResult();
                 DocumentSnapshot lecDoc = GetLec.getResult();
+
                 int maxid = 1;
                 if (!taskResult.isEmpty() && taskResult != null) {
                     DocumentSnapshot documentSnapshot = taskResult.getDocuments().get(0);
@@ -215,17 +167,21 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                 String lecturerName = lecDoc.getString("name");
                 String DocID = Integer.toString(maxid);
 
-                DocumentReference newVac = FStore.collection("Vacancy").document(DocID);
-                Map<String, Object> dataVals = new HashMap<>();
-                dataVals.put("module", module);
-                dataVals.put("description", description);
-                dataVals.put("semester", semsterChosen);
-                dataVals.put("salary", finalSalary);
-                dataVals.put("status", "1");
-                dataVals.put("type", position);
-                dataVals.put("created_by", UserIDStatic.getInstance().getUserId());
-                dataVals.put("docId", maxid);
-                dataVals.put("lecturer", lecturerName);
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                String currentDateAndTime = dateFormat.format(calendar.getTime());
+
+
+                DocumentReference newNote = FStore.collection("Note").document(DocID);
+                Map<String, Object> data = new HashMap<>();
+                data.put("lecturer", lecturerName);
+                data.put("title", title);
+                data.put("description", description);
+                data.put("time",currentDateAndTime);
+                data.put("created_by", UserIDStatic.getInstance().getUserId());
+                data.put("expired",false);
+                data.put("faculty",lecDoc.getString("faculty"));
+                data.put("docId", maxid);
 
                 new Thread(() -> {
                     Query allDevices = FStore.collection("Device_Token").whereNotEqualTo("token", UserIDStatic.getInstance().getToken());
@@ -236,7 +192,7 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                             if (!devices.isEmpty()) {
                                 for (QueryDocumentSnapshot queryDocumentSnapshot : devices) {
                                     if (queryDocumentSnapshot.getString("faculty").equals(lecDoc.getString("faculty"))) {
-                                        SendPushNotification.pushNotification(CreateVacancyLecturer.this, queryDocumentSnapshot.getString("token"), "New Vacancy", lecturerName + " created a vacancy. Check it out...");
+                                        SendPushNotification.pushNotification(CreateNoticeLecturer.this, queryDocumentSnapshot.getString("token"), "New Notice", lecturerName + " sent out a new notice!");
                                     }
                                 }
                             }
@@ -244,12 +200,12 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                     });
                 }).start();
 
-                newVac.set(dataVals).addOnSuccessListener(unused -> {
+                newNote.set(data).addOnSuccessListener(unused -> {
                             progressDialog.dismiss();
 
                             runOnUiThread(() -> {
-                                        Toast.makeText(this, "Vacancy has been created", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CreateVacancyLecturer.this, VacancyBoardLecturer.class);
+                                        Toast.makeText(this, "Notice has been created", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(CreateNoticeLecturer.this, NoticeBoardLecturer.class);
                                         startActivity(intent);
                                         finish();
                                     }
@@ -258,19 +214,17 @@ public class CreateVacancyLecturer extends AppCompatActivity {
                         })
                         .addOnFailureListener(e -> {
                             progressDialog.dismiss();
-                            runOnUiThread(() -> Toast.makeText(this, "Error: Unable to create Vacancy", Toast.LENGTH_SHORT).show());
+                            runOnUiThread(() -> Toast.makeText(this, "Error: Unable to create Notice", Toast.LENGTH_SHORT).show());
                             return;
                         });
-
-
+                });
             });
 
-
-        });
-    }
+        }
 
     @Override
     public void onBackPressed() {
         return;
     }
-}
+    }
+

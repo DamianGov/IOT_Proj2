@@ -1,57 +1,46 @@
 package com.example.iot_proj2;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.widget.EditText;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProfileStudent extends AppCompatActivity {
+public class Notice_Board_Student extends AppCompatActivity {
 
-    @BindView(R.id.edtPStudName)
-    EditText ProfStudName;
-
-    @BindView(R.id.edtPStudFullName)
-    EditText ProfFullName;
-
-    @BindView(R.id.edtPStudStudentNum)
-    EditText ProfStudNum;
-
-    @BindView(R.id.edtPStudEmail)
-    EditText ProfEmail;
-
-    @BindView(R.id.edtPStudID)
-    EditText ProfID;
-
-    @BindView(R.id.edtPStudFaculty)
-    EditText ProfFac;
-
-    @BindView(R.id.edtPStudCourse)
-    EditText ProfCourse;
-
-    @BindView(R.id.edtPStudPosition)
-    EditText ProfPost;
-
-
-    private FirebaseFirestore FStore;
+    @BindView(R.id.rvStudNoticeBoard)
+    RecyclerView NoticeBoard;
 
     private NavigationView nav_View;
+
+    private FirebaseFirestore FStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_student);
+        setContentView(R.layout.activity_notice_board_student);
 
         ButterKnife.bind(this);
 
@@ -64,6 +53,8 @@ public class ProfileStudent extends AppCompatActivity {
         nav_View = (NavigationView) findViewById(R.id.navigationView);
         Menu navMenu = nav_View.getMenu();
         navMenu.findItem(R.id.mLecturerProfile).setVisible(false);
+        navMenu.findItem(R.id.mLecturerCreateNote).setVisible(false);
+        navMenu.findItem(R.id.mLecturerNoticeBoard).setVisible(false);
         navMenu.findItem(R.id.mLecturerCreateNote).setVisible(false);
         navMenu.findItem(R.id.mLecturerNoticeBoard).setVisible(false);
         navMenu.findItem(R.id.mLecturerVacancyBoard).setVisible(false);
@@ -81,9 +72,8 @@ public class ProfileStudent extends AppCompatActivity {
                     startActivity(intent);
                 }
                 break;
-                case R.id.mStudentNoticeBoard:
-                {
-                    Intent intent = new Intent(this, Notice_Board_Student.class);
+                case R.id.mStudentProfile: {
+                    Intent intent = new Intent(this, ProfileStudent.class);
                     startActivity(intent);
                 }
                 break;
@@ -122,33 +112,43 @@ public class ProfileStudent extends AppCompatActivity {
 
         FStore = FirebaseFirestore.getInstance();
 
-        String StudentNum = UserIDStatic.getInstance().getUserId();
+        DocumentReference docStud = FStore.collection("Student").document(UserIDStatic.getInstance().getUserId());
 
-        DocumentReference docRef = FStore.collection("Student").document(StudentNum);
-        docRef.addSnapshotListener((value, error) -> {
-            ProfStudName.setText(value.getString("name"));
-            ProfFullName.setText(value.getString("name"));
-            ProfStudNum.setText(StudentNum);
-            ProfEmail.setText(value.getString("email"));
-            ProfID.setText(value.getString("ID"));
-            ProfFac.setText(value.getString("faculty"));
-            ProfCourse.setText(value.getString("course"));
-        });
+        docStud.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful())
+            {
+                DocumentSnapshot student = task.getResult();
 
+                Query query = FStore.collection("Note").whereEqualTo("faculty",student.getString("faculty")).whereEqualTo("expired",false).orderBy("docId", Query.Direction.DESCENDING);
 
-        DocumentReference PosTypeRef = FStore.collection("Tutor").document(StudentNum);
-        PosTypeRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot snap = task.getResult();
-                if (snap.exists()) {
-                    ProfPost.setText(snap.getString("type"));
-                } else {
-                    ProfPost.setText("Student");
-                }
+                query.get().addOnCompleteListener(task1 -> {
+                    if(task1.isSuccessful())
+                    {
+                        QuerySnapshot notes = task1.getResult();
+                        List<Notice> noticeList = new ArrayList<>();
+                        if(!notes.isEmpty())
+                        {
+                            for (DocumentSnapshot documentSnapshot : notes.getDocuments())
+                            {
+                                Notice notice = documentSnapshot.toObject(Notice.class);
+                                noticeList.add(notice);
+                            }
+                            runOnUiThread(() -> setAdapter(noticeList));
+                        } else {
+                            runOnUiThread(() -> setAdapter(noticeList));
+                        }
+                    }
+                });
             }
         });
 
+    }
+    private void setAdapter(List<Notice> noticeList) {
+        NoticeAdapterStudent noticeAdapterStudent = new NoticeAdapterStudent(noticeList, this);
+        NoticeBoard.setAdapter(noticeAdapterStudent);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Notice_Board_Student.this);
+        NoticeBoard.setLayoutManager(layoutManager);
     }
 
     @Override
